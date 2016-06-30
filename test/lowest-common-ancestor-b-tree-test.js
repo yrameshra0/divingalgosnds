@@ -33,6 +33,7 @@ describe('Lowest common ancestor in Binary Tree', () => {
             }
         };
 
-        assert.equal(lowestCommonAncestor(tree, 4, 8), 2);
+        let lowestCommonAncestorNode = lowestCommonAncestor(tree, 4, 8)
+        assert.equal(lowestCommonAncestorNode.data, 2);
     });
 });
