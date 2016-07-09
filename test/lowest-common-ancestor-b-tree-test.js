@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import lowestCommonAncestor from '../src/lowest-common-ancestor-b-tree';
 
 describe('Lowest common ancestor in Binary Tree', () => {
-    it('should give lowest common ancestor between 2 nodes of tree', () => {
+    it('Gives lowest common ancestor between 2 nodes of tree', () => {
         let tree = {
             data: 1,
             left: {

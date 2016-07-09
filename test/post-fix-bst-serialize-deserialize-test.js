@@ -36,11 +36,11 @@ describe('Verify post-fix BST data de serialization', () => {
         }
     };
 
-    it('Should give post-fix tree', () => {
+    it('Gives post-fix tree', () => {
         assert.deepEqual(postFixBST.deSerializeToTree([5, 2, 1, 3, 4, 6, 8, 7]), finalTree);
     });
 
-    it('Should give post-fix array', () => {
+    it('Gives post-fix array', () => {
         assert.deepEqual(postFixBST.serializeToArray(finalTree), [5, 2, 1, 3, 4, 6, 8, 7]);
     });
 });
