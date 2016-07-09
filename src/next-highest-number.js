@@ -7,7 +7,7 @@ export default function nextHighestNo(number) {
             location: undefined
         },
         d2 = {
-            digit: 100000,
+            digit: Number.MAX_SAFE_INTEGER,
             location: undefined
         },
         determineNonAscendingDigitFromRight = function() {
