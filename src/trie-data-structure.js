@@ -12,6 +12,16 @@ let createNode = function createNode() {
             return currentNode.keyArr[keyIndex];
 
         return createNode();
+    },
+    removeFirstChar = function removeFirstChar(reqString) {
+        let recurKey = reqString.split('');
+
+        recurKey.splice(0, 1);
+
+        return {
+            firstChar: reqString[0],
+            remainingString: recurKey.join('')
+        };
     };
 
 function serialize(keyValuePair) {
@@ -36,17 +46,15 @@ function deSerialize(trieDS) {
 
 }
 
-function find(rootNode, key) {
-    let partKey = key[0],
-        recurKey = key.split('');
+function find(rootNode, keyString) {
+    let key = removeFirstChar(keyString);
 
-    let node = rootNode.keyArr[keyFunction(partKey)];
+    let node = rootNode.keyArr[keyFunction(key.firstChar)];
 
     if (node.value !== undefined)
         return node.value;
 
-    recurKey.splice(0, 1)
-    return find(node, recurKey.join(''));
+    return find(node, key.remainingString);
 }
 
 export { serialize, deSerialize, find };
