@@ -36,4 +36,17 @@ function deSerialize(trieDS) {
 
 }
 
-export { serialize, deSerialize };
+function find(rootNode, key) {
+    let partKey = key[0],
+        recurKey = key.split('');
+
+    let node = rootNode.keyArr[keyFunction(partKey)];
+
+    if (node.value !== undefined)
+        return node.value;
+
+    recurKey.splice(0, 1)
+    return find(node, recurKey.join(''));
+}
+
+export { serialize, deSerialize, find };
