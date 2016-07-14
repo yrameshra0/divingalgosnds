@@ -12,7 +12,13 @@ describe('Trie Data Structre implementation', () => {
     });
 
     it('De-serialize the trie structure to an key-value pair', () => {
+        let keyValue = {
+            "abc": 120,
+            "xyz": 19,
+            "xy": 4
+        };
 
+        assert.deepEqual(trieDS.deSerialize(trieDS.serialize(keyValue)), keyValue);
     });
 
     it('Search trie structure for given key', () => {
