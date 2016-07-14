@@ -4,11 +4,12 @@ let createNode = function createNode() {
             keyArr: new Array(25) // a-z characters length
         };
     },
+    supportedCharsStart = "a".charCodeAt(0),
     keyFunction = function keyFunction(character) {
-        return character.charCodeAt(0) - "a".charCodeAt(0);
+        return character.charCodeAt(0) - supportedCharsStart;
     },
     reverseKeyFunction = function reverseKeyFunction(charCode) {
-        return String.fromCharCode(charCode + "a".charCodeAt(0));;
+        return String.fromCharCode(charCode + supportedCharsStart);
     },
     findNode = function findNode(currentNode, keyIndex) {
         if (currentNode.keyArr[keyIndex] !== undefined)
@@ -16,14 +17,14 @@ let createNode = function createNode() {
 
         return createNode();
     },
-    removeFirstChar = function removeFirstChar(reqString) {
-        let recurKey = reqString.split('');
+    filterFirstChar = function filterFirstChar(key) {
+        let splicedKey = key.split('');
 
-        recurKey.splice(0, 1);
+        splicedKey.splice(0, 1);
 
         return {
-            firstChar: reqString[0],
-            remainingString: recurKey.join('')
+            firstChar: key[0],
+            splicedKey: splicedKey.join('')
         };
     };
 
@@ -45,12 +46,6 @@ function serialize(keyValuePair) {
     return rootNode;
 }
 
-// Failing with xyz and xy keys having value
-/** 
-## Index based recursion is solution here where in the index is sent at every level 
-## Also At every level if the value is found we accumulate the value in accumulator and 
-continue ahead
-*/
 function deSerialize(trieDS) {
     let finalKeyValue = {};
 
@@ -85,14 +80,14 @@ function deSerialize(trieDS) {
 }
 
 function find(rootNode, keyString) {
-    let key = removeFirstChar(keyString);
+    let key = filterFirstChar(keyString);
 
     let node = rootNode.keyArr[keyFunction(key.firstChar)];
 
     if (node.value !== undefined)
         return node.value;
 
-    return find(node, key.remainingString);
+    return find(node, key.splicedKey);
 }
 
 export { serialize, deSerialize, find };
