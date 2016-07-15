@@ -32,7 +32,7 @@ function serialize(keyValuePair) {
     let rootNode = createNode();
     Object.keys(keyValuePair).forEach((key) => {
         let currNode = rootNode;
-        key.split('').map((keyChar, index) => {
+        key.split('').forEach((keyChar, index) => {
             let newNode = findNode(currNode, keyFunction(keyChar));
             currNode.keyArr[keyFunction(keyChar)] = newNode;
 
@@ -49,32 +49,29 @@ function serialize(keyValuePair) {
 function deSerialize(trieDS) {
     let finalKeyValue = {};
 
-    function recursiveNodeValueSearch(currNode, key) {
-
-        let nodeInfo = {};
-        currNode.keyArr.forEach((node, index) => {
-            if (node !== undefined) {
-                nodeInfo["node"] = node;
-                nodeInfo["index"] = index;
-            }
-        });
-
-        if (nodeInfo.node !== undefined) {
-            let node = nodeInfo.node,
-                index = nodeInfo.index;
-            if (node.value !== undefined) {
-                finalKeyValue[key + reverseKeyFunction(index)] = node.value;
-            }
-
-            recursiveNodeValueSearch(node, key + reverseKeyFunction(index));
-        }
+    function findAndAppendValueToFinalKeyValue(node, key, index) {
+        if (node.value !== undefined)
+            finalKeyValue[key + reverseKeyFunction(index)] = node.value;
     }
 
-    trieDS.keyArr.forEach((node, index) => {
-        if (node !== undefined) {
-            recursiveNodeValueSearch(node, reverseKeyFunction(index));
-        }
-    });
+    function recursiveNodeValueSearch(currNode, key) {
+        currNode.keyArr.forEach((node, index) => {
+            if (node !== undefined) {
+                findAndAppendValueToFinalKeyValue(node, key, index);
+
+                recursiveNodeValueSearch(node, key + reverseKeyFunction(index));
+            }
+        });
+    }
+
+    ( function searchRootNodeKeyArray(rootNode) {
+        rootNode.keyArr.forEach((node, index) => {
+            if (node !== undefined) {
+                recursiveNodeValueSearch(node, reverseKeyFunction(index));
+            }
+        });
+    } )(trieDS);
+
 
     return finalKeyValue;
 }
