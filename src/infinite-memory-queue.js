@@ -8,32 +8,31 @@ let createNode = function createNode(data) {
     exitNode = undefined,
     enqueue = function enqueue(data) {
         let newNode = createNode(data);
-        if (exitNode === undefined && entryNode === undefined) {
+        if (exitNode === undefined)
             exitNode = newNode;
-            entryNode = newNode;
-        } else {
-            newNode.next = entryNode;
-            entryNode = newNode;
-        }
+
+        newNode.next = entryNode;
+        entryNode = newNode;
     },
     dequeue = function dequeue() {
         let returnData = exitNode === undefined ? undefined : exitNode.data;
 
         ( function reinstateExitNode(node) {
-            if (node !== undefined) {
-                let lastNodeCheck = node.next === undefined && node === exitNode,
-                    nonLastNodeCheck = node.next === exitNode;
-                if (lastNodeCheck) {
-                    exitNode = undefined;
-                    entryNode = undefined;
-                }
-                if (nonLastNodeCheck) {
-                    exitNode = node;
-                    node.next = undefined;
-                }
-                else
-                    reinstateExitNode(node.next);
+            if (node === undefined)
+                return;
+
+            let isLastNode = node.next === undefined && node === exitNode,
+                isNonLastNode = node.next === exitNode;
+
+            if (isLastNode)
+                entryNode = exitNode = undefined;
+
+            if (isNonLastNode) {
+                exitNode = node;
+                exitNode.next = undefined;
             }
+
+            reinstateExitNode(node.next);
         } )(entryNode);
 
         return returnData;
