@@ -36,6 +36,9 @@ let createNode = function createNode(data) {
         } )(entryNode);
 
         return returnData;
+    },
+    peek = function peek() {
+        return entryNode !== undefined ? entryNode.data : undefined;
     };
 
-export { enqueue, dequeue };
+export { enqueue, dequeue, peek };

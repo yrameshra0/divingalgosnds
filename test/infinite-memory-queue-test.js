@@ -14,4 +14,13 @@ describe('Queue operations', () => {
         assert.equal(queue.dequeue(), 19);
         assert.equal(queue.dequeue(), undefined);
     });
+
+    it('Peek inside queue', () => {
+        assert.equal(queue.peek(), undefined);
+        queue.enqueue(19);
+        queue.enqueue(20);
+        assert.equal(queue.peek(), 20);
+        queue.dequeue();
+        queue.dequeue();
+    });
 });
