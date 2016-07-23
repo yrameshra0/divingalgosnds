@@ -37,13 +37,22 @@ export default function createQueue() {
             } )(entryNode);
             return returnData;
         },
-        peek = function peek() {
-            return entryNode !== undefined ? entryNode.data : undefined;
+        peek = function peek(location) {
+            let node = location === 'entry' ? entryNode : exitNode;
+
+            return node !== undefined ? node.data : undefined;
+        },
+        peekAtEntry = function peekAtEntry() {
+            return peek('entry');
+        },
+        peekAtExit = function peekAtExit() {
+            return peek('exit');
         };
 
     return {
         enqueue: enqueue,
         dequeue: dequeue,
-        peek: peek
+        peekAtEntry: peekAtEntry,
+        peekAtExit: peekAtExit
     };
 }
