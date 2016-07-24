@@ -12,17 +12,18 @@ export default function createMaxQueue() {
             return maxQueue.peekAtEntry();
         },
         reElectMaxElement = function reElectMaxElement() {
+            // Indicates that we need to select new maxElement
             if (maxQueue.peekAtEntry() === undefined && infiniteQueue !== undefined) {
-                // Indicates that we need to select new maxElement
-                let tempArr = [];
-                ( function completeDequeue() {
+                let dequeueElems = ( function completeDequeue(tempArr) {
                     if (infiniteQueue.peekAtExit() === undefined)
-                        return;
+                        return tempArr;
+
                     tempArr.push(infiniteQueue.dequeue());
 
-                    completeDequeue()
-                } )();
-                tempArr.forEach((elem) => {
+                    return completeDequeue(tempArr)
+                } )([]);
+
+                dequeueElems.forEach((elem) => {
                     enqueue(elem);
                 });
             }
