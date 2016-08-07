@@ -5,29 +5,50 @@ export default function newArrayStack() {
         TOTAL_SIZE = DEFAULT_SIZE * NUMBER_OF_STACKS;
 
     let stackData = function(_start, _capacity) {
+            let size = 0,
+                start = _start,
+                capacity = _capacity,
+                position = -1,
+                incrementIndexAndGet = function incrementIndexAndGet() {
+                    position = start + size;
+                    size++;
+
+                    return position;
+                },
+                deincrementIndexAndGet = function deincrementIndexAndGet() {
+                    let index = position;
+                    size--;
+                    position--;
+
+                    return index;
+                };
+
             return {
-                start: _start,
-                capacity: _capacity,
-                pointer: _start - 1,
-                size: 0
+                incrementIndexAndGet: incrementIndexAndGet,
+                deincrementIndexAndGet: deincrementIndexAndGet
             };
         },
-        stacks = [stackData(0, DEFAULT_SIZE), stackData(1, DEFAULT_SIZE), stackData(2, DEFAULT_SIZE)],
+        stacks = [
+            stackData(DEFAULT_SIZE * 0, DEFAULT_SIZE),
+            stackData(DEFAULT_SIZE * 1, DEFAULT_SIZE),
+            stackData(DEFAULT_SIZE * 2, DEFAULT_SIZE)
+        ],
         buffer = new Array(TOTAL_SIZE);
 
 
 
     function push(stackIndex, element) {
         let stack = stacks[stackIndex];
-        stack.size++;
-        stack.pointer = stack.pointer + 1;
-        buffer[stack.pointer] = element;
+
+        buffer[stack.incrementIndexAndGet()] = element;
     }
 
     function pop(stackIndex) {
         let stack = stacks[stackIndex],
-            value = buffer[stack.pointer];
+            index = stack.deincrementIndexAndGet(),
+            value = buffer[index];
 
+        buffer[index] = undefined
         return value;
     }
 

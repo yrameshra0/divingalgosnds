@@ -7,9 +7,10 @@ describe('Storing multiple stacks inside same array', () => {
         let arrayStack = newArrayStack();
 
         arrayStack.push(0, 10);
-        arrayStack.push(1, 20);
-        arrayStack.push(2, 30);
+        arrayStack.push(1, 11);
+        arrayStack.push(2, 12);
+        arrayStack.push(0, 20);
 
-        assert.equal(arrayStack.pop(1), 20);
+        assert.equal(arrayStack.pop(1), 11);
     });
 });
