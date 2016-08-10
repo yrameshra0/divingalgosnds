@@ -56,6 +56,8 @@ export default function newArrayStack() {
             expand(stackIndex);
 
         buffer[stack.incrementIndexAndGet()] = element;
+        if (buffer.length > TOTAL_SIZE)
+            throw "Stack is full";
         console.log(buffer);
     }
 
