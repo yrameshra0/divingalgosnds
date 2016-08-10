@@ -13,6 +13,12 @@ export default function newArrayStack() {
             return {
                 start: start,
                 capacity: capacity,
+                getSize: function getSize() {
+                    return size;
+                },
+                getPosition: function getPosition() {
+                    return position;
+                },
                 incrementIndexAndGet: function incrementIndexAndGet() {
                     position = start + size;
                     size++;
@@ -50,22 +56,43 @@ export default function newArrayStack() {
             expand(stackIndex);
 
         buffer[stack.incrementIndexAndGet()] = element;
+        console.log(buffer);
     }
 
     function expand(stackIndex) {
         // finding space on the right hand side for expansion
-        if (!stacks[stackIndex + 1].isFull())
-            shift(stackIndex + 1);
+        let shiftIndex = -1;
+        stacks.some((stack, index) => {
+            if (!stack.isFull()) {
+                shiftIndex = index;
+                return index;
+            }
+        });
+
+        for (let i = shiftIndex; i > stackIndex; i--) {
+            console.log("SHITING --> " + i);
+            let capacity = stacks[i].capacity;
+            if (i === shiftIndex)
+                capacity = capacity - 1;
+
+            shift(i, capacity);
+        }
+        // Expanding 
+        stacks[stackIndex].capacity = stacks[stackIndex].capacity + 1;
     }
 
-    function shift(stackIndex) {
+    function shift(stackIndex, capacity) {
         let stack = stacks[stackIndex],
-            newStack = stackData(stack.start + 1, stack.capacity - 1);
+            position = stack.getPosition(),
+            newStack = stackData(stack.start + 1, capacity);
 
         stacks[stackIndex] = newStack
-
-        while (!stack.isEmpty()) {
-            push(stackIndex, buffer[stack.deincrementIndexAndGet()]);
+        console.log("START --> " + stack.start + " POSITIION -->" + position);
+        for (let i = position; i >= stack.start; i--) {
+            buffer[i + 1] = buffer[i];
+            buffer[i] = undefined;
+            newStack.incrementIndexAndGet();
+            console.log(buffer);
         }
 
         stack = undefined;
