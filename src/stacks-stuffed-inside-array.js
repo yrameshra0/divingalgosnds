@@ -13,9 +13,6 @@ export default function newArrayStack() {
             return {
                 start: start,
                 capacity: capacity,
-                getSize: function getSize() {
-                    return size;
-                },
                 getPosition: function getPosition() {
                     return position;
                 },
@@ -34,9 +31,6 @@ export default function newArrayStack() {
                 },
                 isFull: function() {
                     return size === capacity;
-                },
-                isEmpty: function() {
-                    return size === 0;
                 }
             };
         },
@@ -50,53 +44,95 @@ export default function newArrayStack() {
 
 
     function push(stackIndex, element) {
-        let stack = stacks[stackIndex];
+        let stack = stacks[stackIndex],
+            elemIndex;
 
         if (stack.isFull())
             expand(stackIndex);
 
-        buffer[stack.incrementIndexAndGet()] = element;
-        if (buffer.length > TOTAL_SIZE)
-            throw "Stack is full";
-        console.log(buffer);
+        stack = stacks[stackIndex];
+        elemIndex = stack.incrementIndexAndGet();
+
+        buffer[elemIndex] = element;
     }
 
     function expand(stackIndex) {
         // finding space on the right hand side for expansion
         let shiftIndex = -1;
-        stacks.some((stack, index) => {
-            if (!stack.isFull()) {
+        stacks.forEach((stack, index) => {
+            if (shiftIndex === -1 && !stack.isFull()) {
+                console.log('SEARCH COMPLETE');
                 shiftIndex = index;
-                return index;
             }
         });
 
-        for (let i = shiftIndex; i > stackIndex; i--) {
-            console.log("SHITING --> " + i);
-            let capacity = stacks[i].capacity;
-            if (i === shiftIndex)
-                capacity = capacity - 1;
+        console.log("stackIndex -- " + stackIndex);
+        console.log("Check Full -- " + stacks[stackIndex].isFull());
+        if (stackIndex === -1)
+            throw 'No space in stack for storage';
 
-            shift(i, capacity);
+
+        if (shiftIndex > stackIndex) {
+            for (let i = shiftIndex; i > stackIndex; i--) {
+                let capacity = stacks[i].capacity;
+                if (i === shiftIndex)
+                    capacity = capacity - 1;
+
+                shiftFront(i, capacity);
+            }
+        }
+
+        if (shiftIndex < stackIndex) {
+            for (let i = shiftIndex; i <= stackIndex; i++) {
+                let capacity = stacks[i].capacity;
+                if (i === shiftIndex)
+                    capacity = capacity - 1;
+
+                shiftBack(i, capacity);
+            }
         }
         // Expanding 
         stacks[stackIndex].capacity = stacks[stackIndex].capacity + 1;
     }
 
-    function shift(stackIndex, capacity) {
+    function shiftFront(stackIndex, capacity) {
         let stack = stacks[stackIndex],
             position = stack.getPosition(),
             newStack = stackData(stack.start + 1, capacity);
 
-        stacks[stackIndex] = newStack
-        console.log("START --> " + stack.start + " POSITIION -->" + position);
+        stacks[stackIndex] = newStack;
+
         for (let i = position; i >= stack.start; i--) {
             buffer[i + 1] = buffer[i];
             buffer[i] = undefined;
             newStack.incrementIndexAndGet();
-            console.log(buffer);
         }
 
+        stack = undefined;
+    }
+
+    function shiftBack(stackIndex, capacity) {
+        let stack = stacks[stackIndex],
+            position = stack.getPosition(),
+            newStack = undefined;
+        if (stack.capacity > capacity) {
+            newStack = stackData(stack.start, capacity);
+        } else {
+            newStack = stackData(stack.start - 1, capacity);
+        }
+
+        stacks[stackIndex] = newStack;
+
+        if (stack.capacity > newStack.capacity) {
+            newStack.incrementIndexAndGet();
+            return;
+        }
+
+        for (let i = stack.start; i <= position; i++) {
+            buffer[i - 1] = buffer[i];
+            buffer[i] = undefined;
+            newStack.incrementIndexAndGet()
+        }
         stack = undefined;
     }
 
