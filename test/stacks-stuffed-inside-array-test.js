@@ -1,4 +1,6 @@
-import { assert } from 'chai';
+import {
+    assert
+} from 'chai';
 import newArrayStack from '../src/stacks-stuffed-inside-array';
 
 describe('Storing multiple stacks inside same array', () => {
@@ -83,6 +85,8 @@ describe('Storing multiple stacks inside same array', () => {
         arrayStack.push(2, '22');
 
 
-        assert.throws(arrayStack.push(2, '23'), 'No space in stack for storage');
+        assert.throws(() => {
+            arrayStack.push(0, '03');
+        }, Error, 'No space in stack for storage');
     });
 });

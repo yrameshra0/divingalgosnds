@@ -61,15 +61,12 @@ export default function newArrayStack() {
         let shiftIndex = -1;
         stacks.forEach((stack, index) => {
             if (shiftIndex === -1 && !stack.isFull()) {
-                console.log('SEARCH COMPLETE');
                 shiftIndex = index;
             }
         });
 
-        console.log("stackIndex -- " + stackIndex);
-        console.log("Check Full -- " + stacks[stackIndex].isFull());
-        if (stackIndex === -1)
-            throw 'No space in stack for storage';
+        if (shiftIndex === -1)
+            throw new Error('No space in stack for storage');
 
 
         if (shiftIndex > stackIndex) {
