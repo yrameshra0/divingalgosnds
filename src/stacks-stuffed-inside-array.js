@@ -78,7 +78,7 @@ export default function newArrayStack() {
 
                     info.stack.update(info.start - 1, capacity);
 
-                    for (let i = info.stack.start; i <= info.position; i++) {
+                    for (let i = info.start; i <= info.position; i++) {
                         buffer[i - 1] = buffer[i];
                         buffer[i] = undefined;
                     }
@@ -154,8 +154,13 @@ export default function newArrayStack() {
         return value;
     }
 
+    function peek(stackIndex) {
+        return buffer[stacks[stackIndex].getPosition()];
+    }
+
     return {
         push: push,
-        pop: pop
+        pop: pop,
+        peek: peek
     };
 }

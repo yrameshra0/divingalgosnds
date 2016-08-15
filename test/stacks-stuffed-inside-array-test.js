@@ -70,4 +70,16 @@ describe('Storing multiple stacks inside same array', () => {
             arrayStack.push(0, '03');
         }, Error, 'No space in stack for storage');
     });
+
+    it('Peeks into stack', () => {
+        let arrayStack = newArrayStack();
+
+        arrayStack.push(0, '01');
+        arrayStack.push(0, '02');
+        arrayStack.push(1, '11');
+        arrayStack.push(1, '12');
+
+        assert.equal(arrayStack.peek(0), '02');
+        assert.equal(arrayStack.peek(1), '12');
+    })
 });
