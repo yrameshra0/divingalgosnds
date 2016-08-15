@@ -8,30 +8,36 @@ export default function newArrayStack() {
             let size = 0,
                 start = _start,
                 capacity = _capacity,
-                position = -1;
+                getPosition = function getPosition() {
+                    let position = start + size - 1;
+                    return position;
+                };
 
             return {
                 start: start,
                 capacity: capacity,
-                getPosition: function getPosition() {
-                    return position;
-                },
+                getPosition: getPosition,
                 incrementIndexAndGet: function incrementIndexAndGet() {
-                    position = start + size;
                     size++;
 
-                    return position;
+                    return getPosition();
                 },
                 deincrementIndexAndGet: function deincrementIndexAndGet() {
-                    let index = position;
+                    let position = getPosition();
                     size--;
-                    position--;
 
-                    return index;
+                    return position;
                 },
                 isFull: function() {
                     return size === capacity;
-                }
+                },
+                update: function update(_start, _capacity) {
+                    start = _start;
+                    capacity = _capacity;
+                },
+                updateCapacity: function updateCapacity(_capacity) {
+                    capacity = _capacity;
+                },
             };
         },
         stacks = [
@@ -45,12 +51,11 @@ export default function newArrayStack() {
 
     function push(stackIndex, element) {
         let stack = stacks[stackIndex],
-            elemIndex;
+            elemIndex = undefined;
 
         if (stack.isFull())
             expand(stackIndex);
 
-        stack = stacks[stackIndex];
         elemIndex = stack.incrementIndexAndGet();
 
         buffer[elemIndex] = element;
@@ -89,51 +94,44 @@ export default function newArrayStack() {
             }
         }
         // Expanding 
-        stacks[stackIndex].capacity = stacks[stackIndex].capacity + 1;
+        let stack = stacks[stackIndex];
+        stack.updateCapacity(stack.capacity + 1);
     }
 
     function shiftFront(stackIndex, capacity) {
         let stack = stacks[stackIndex],
             position = stack.getPosition(),
-            newStack = stackData(stack.start + 1, capacity);
+            start = stack.start;
 
-        stacks[stackIndex] = newStack;
+        stack.update(start + 1, capacity);
 
-        for (let i = position; i >= stack.start; i--) {
+        for (let i = position; i >= start; i--) {
             buffer[i + 1] = buffer[i];
             buffer[i] = undefined;
-            newStack.incrementIndexAndGet();
         }
-
-        stack = undefined;
     }
 
     function shiftBack(stackIndex, capacity) {
         let stack = stacks[stackIndex],
             position = stack.getPosition(),
-            newStack = undefined;
+            start = stack.start;
+
         if (stack.capacity > capacity) {
-            newStack = stackData(stack.start, capacity);
-        } else {
-            newStack = stackData(stack.start - 1, capacity);
-        }
-
-        stacks[stackIndex] = newStack;
-
-        if (stack.capacity > newStack.capacity) {
-            newStack.incrementIndexAndGet();
+            stack.updateCapacity(capacity);
             return;
         }
+
+        stack.update(start - 1, capacity);
 
         for (let i = stack.start; i <= position; i++) {
             buffer[i - 1] = buffer[i];
             buffer[i] = undefined;
-            newStack.incrementIndexAndGet()
         }
-        stack = undefined;
     }
 
     function pop(stackIndex) {
+        console.log(buffer);
+
         let stack = stacks[stackIndex],
             index = stack.deincrementIndexAndGet(),
             value = buffer[index];
