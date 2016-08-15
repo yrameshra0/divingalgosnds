@@ -45,9 +45,93 @@ export default function newArrayStack() {
             stackData(DEFAULT_SIZE * 1, DEFAULT_SIZE),
             stackData(DEFAULT_SIZE * 2, DEFAULT_SIZE)
         ],
-        buffer = new Array(TOTAL_SIZE);
+        buffer = new Array(TOTAL_SIZE),
+        shiftActions = {
+            front: {
+                loopControl: (i, stackIndex) => {
+                    return i > stackIndex;
+                },
+                loopIteration: (i) => {
+                    return i - 1;
+                },
+                adjust: (info, capacity) => {
+                    info.stack.update(info.start + 1, capacity);
 
+                    for (let i = info.position; i >= info.start; i--) {
+                        buffer[i + 1] = buffer[i];
+                        buffer[i] = undefined;
+                    }
+                }
+            },
+            back: {
+                loopControl: (i, stackIndex) => {
+                    return i <= stackIndex;
+                },
+                loopIteration: (i) => {
+                    return i + 1;
+                },
+                adjust: (info, capacity) => {
+                    if (info.stack.capacity > capacity) {
+                        info.stack.updateCapacity(capacity);
+                        return;
+                    }
 
+                    info.stack.update(info.start - 1, capacity);
+
+                    for (let i = info.stack.start; i <= info.position; i++) {
+                        buffer[i - 1] = buffer[i];
+                        buffer[i] = undefined;
+                    }
+                }
+            }
+        };
+
+    function searchStackForMovement() {
+        let moveToIndex = -1;
+        stacks.forEach((stack, index) => {
+            if (moveToIndex === -1 && !stack.isFull()) {
+                moveToIndex = index;
+            }
+        });
+
+        if (moveToIndex === -1)
+            throw new Error('No space in stack for storage');
+
+        return moveToIndex
+    }
+
+    function searchMovementDirection(shiftIndex, expandingStackIndex) {
+        if (shiftIndex > expandingStackIndex)
+            return shiftActions["front"];
+
+        if (shiftIndex < expandingStackIndex)
+            return shiftActions["back"];
+    }
+
+    function expand(stackIndex) {
+        let shiftIndex = searchStackForMovement(),
+            shift = searchMovementDirection(shiftIndex, stackIndex);
+
+        for (let i = shiftIndex; shift.loopControl(i, stackIndex); i = shift.loopIteration(i)) {
+            let capacity = stacks[i].capacity;
+            if (i === shiftIndex)
+                capacity = capacity - 1;
+
+            adjustBuffer(shift, stacks[i], capacity);
+        }
+
+        // Expanding 
+        let stack = stacks[stackIndex];
+        stack.updateCapacity(stack.capacity + 1);
+    }
+
+    function adjustBuffer(shift, stack, capacity) {
+        shift.adjust({
+            stack: stack,
+            position: stack.getPosition(),
+            start: stack.start
+        }, capacity)
+    }
 
     function push(stackIndex, element) {
         let stack = stacks[stackIndex],
@@ -61,77 +145,7 @@ export default function newArrayStack() {
         buffer[elemIndex] = element;
     }
 
-    function expand(stackIndex) {
-        // finding space on the right hand side for expansion
-        let shiftIndex = -1;
-        stacks.forEach((stack, index) => {
-            if (shiftIndex === -1 && !stack.isFull()) {
-                shiftIndex = index;
-            }
-        });
-
-        if (shiftIndex === -1)
-            throw new Error('No space in stack for storage');
-
-
-        if (shiftIndex > stackIndex) {
-            for (let i = shiftIndex; i > stackIndex; i--) {
-                let capacity = stacks[i].capacity;
-                if (i === shiftIndex)
-                    capacity = capacity - 1;
-
-                shiftFront(i, capacity);
-            }
-        }
-
-        if (shiftIndex < stackIndex) {
-            for (let i = shiftIndex; i <= stackIndex; i++) {
-                let capacity = stacks[i].capacity;
-                if (i === shiftIndex)
-                    capacity = capacity - 1;
-
-                shiftBack(i, capacity);
-            }
-        }
-        // Expanding 
-        let stack = stacks[stackIndex];
-        stack.updateCapacity(stack.capacity + 1);
-    }
-
-    function shiftFront(stackIndex, capacity) {
-        let stack = stacks[stackIndex],
-            position = stack.getPosition(),
-            start = stack.start;
-
-        stack.update(start + 1, capacity);
-
-        for (let i = position; i >= start; i--) {
-            buffer[i + 1] = buffer[i];
-            buffer[i] = undefined;
-        }
-    }
-
-    function shiftBack(stackIndex, capacity) {
-        let stack = stacks[stackIndex],
-            position = stack.getPosition(),
-            start = stack.start;
-
-        if (stack.capacity > capacity) {
-            stack.updateCapacity(capacity);
-            return;
-        }
-
-        stack.update(start - 1, capacity);
-
-        for (let i = stack.start; i <= position; i++) {
-            buffer[i - 1] = buffer[i];
-            buffer[i] = undefined;
-        }
-    }
-
     function pop(stackIndex) {
-        console.log(buffer);
-
         let stack = stacks[stackIndex],
             index = stack.deincrementIndexAndGet(),
             value = buffer[index];

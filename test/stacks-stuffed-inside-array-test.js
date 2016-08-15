@@ -44,9 +44,9 @@ describe('Storing multiple stacks inside same array', () => {
         assert.equal(arrayStack.pop(1), '12');
         assert.equal(arrayStack.pop(0), '01');
 
+        arrayStack.push(0, '01');
         arrayStack.push(1, '12');
         arrayStack.push(2, '23');
-        arrayStack.push(0, '01');
 
         assert.equal(arrayStack.pop(2), '23');
         assert.equal(arrayStack.pop(1), '12');
