@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import newArrayStack from '../src/stacks-stuffed-inside-array';
+import newArrayStack from '../../main/js/stacks-stuffed-inside-array';
 
 describe('Storing multiple stacks inside same array', () => {
 

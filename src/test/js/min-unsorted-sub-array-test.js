@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import FindMinSubArray from '../src/min-unsorted-sub-array'
+import FindMinSubArray from '../../main/js/min-unsorted-sub-array'
 
 describe("Minimum Sub Array Sort Problem", () => {
     it("Returns minimum sub-array for an given array ", () => {

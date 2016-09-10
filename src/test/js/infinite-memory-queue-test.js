@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import createQueue from '../src/infinite-memory-queue';
+import createQueue from '../../main/js/infinite-memory-queue';
 
 describe('Queue operations', () => {
     let queue;

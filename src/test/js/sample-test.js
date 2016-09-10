@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import Sample from '../src/Sample';
+import Sample from '../../main/js/Sample';
 
 describe("Sample test for checking all tooling", () => {
 

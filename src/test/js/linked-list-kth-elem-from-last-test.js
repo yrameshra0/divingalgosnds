@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import newLinkedList from '../src/linked-list-kth-elem-from-last';
+import newLinkedList from '../../main/js/linked-list-kth-elem-from-last';
 
 describe('Gives kth element from last from linked list', () => {
 
