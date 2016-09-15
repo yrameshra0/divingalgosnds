@@ -12,3 +12,5 @@ Repository hosting varied sets of algorithms and data structures intended toward
 | [Searching in rotated sorted array](./src/main/js/searching-rotated-sorted-array.js)|Applying binary search in an sorted array but taking care of rotation by eliminating wasteful paths|
 | [Graph node path search](./src/main/java/algosnds/graphnodepathsearch/GraphNodePathSearch.java)|Searches if two nodes are connected and accessible by doing an Breadth First Search from one node terminating at other one or else flagging unsuccessful search|
 | [LRU Cache](./src/main/java/algosnds/leastrecentlyusedcache/LRUCache.java)| Least Recently Used Cache implementation using doubly linked list and hash table combination|
+| [Minimal Tree](./src/main/js/minimal-tree.js)| Generates binary search tree of minimal height from sorted array in increasing order|
+
