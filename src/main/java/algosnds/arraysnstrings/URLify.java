@@ -1,4 +1,4 @@
-package algosnds.urlify;
+package algosnds.arraysnstrings;
 
 public class URLify {
     public void replaceSpaces(char[] inputArray, int trueLength) {

@@ -1,52 +1,51 @@
 package algosnds.arraysnstrings;
 
-public class OneEditAway{
+public class OneEditAway {
 
-	public boolean verify(String first, String second){
+    public boolean verify(String first, String second) {
 
-		if(first.length()==second.length())
-			return verifyReplace(first, second);
+        if (first.length() == second.length())
+            return verifyReplace(first, second);
 
-		if(first.length() + 1 == second.length())
-			return verifyAdditionOrRemoval(first, second);
+        if (first.length() + 1 == second.length())
+            return verifyAdditionOrRemoval(first, second);
 
-		if(first.length() - 1 == second.length())
-			return verifyAdditionOrRemoval(second, first);
-	
-		return false;
-	}
+        if (first.length() - 1 == second.length())
+            return verifyAdditionOrRemoval(second, first);
 
-	private boolean verifyAdditionOrRemoval(String s1, String s2){
-		int index1 = 0, index2 = 0;
-		while(index1<s1.length() && index2<s2.length()){
-			if(s1.charAt(index1)!=s2.charAt(index2)){
-				if(index1!=index2)
-					return false;
+        return false;
+    }
 
-				index2++;
-			}
-			else{
-				index1++;
-				index2++;
-			}
-		}
+    private boolean verifyAdditionOrRemoval(String s1, String s2) {
+        int index1 = 0, index2 = 0;
+        while (index1 < s1.length() && index2 < s2.length()) {
+            if (s1.charAt(index1) != s2.charAt(index2)) {
+                if (index1 != index2)
+                    return false;
 
-		return true;
-	}
+                index2++;
+            } else {
+                index1++;
+                index2++;
+            }
+        }
 
-	private boolean verifyReplace(String s1, String s2){
-		int index = 0;
-		boolean replaceFound = false;
-		while(index<s1.length()){
-			if(s1.charAt(index)!=s2.charAt(index)){
-				if(replaceFound)
-					return false;
+        return true;
+    }
 
-				replaceFound = true;
-			}
-			index++;
-		}
+    private boolean verifyReplace(String s1, String s2) {
+        int index = 0;
+        boolean replaceFound = false;
+        while (index < s1.length()) {
+            if (s1.charAt(index) != s2.charAt(index)) {
+                if (replaceFound)
+                    return false;
 
-		return true;
-	}
+                replaceFound = true;
+            }
+            index++;
+        }
+
+        return true;
+    }
 }

@@ -1,4 +1,4 @@
-package algosnds.palindrome;
+package algosnds.arraysnstrings;
 
 import org.junit.Test;
 

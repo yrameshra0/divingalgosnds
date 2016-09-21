@@ -1,4 +1,4 @@
-package algosnds.urlify;
+package algosnds.arraysnstrings;
 
 import org.junit.Test;
 

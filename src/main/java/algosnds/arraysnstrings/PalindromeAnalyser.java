@@ -1,4 +1,4 @@
-package algosnds.palindrome;
+package algosnds.arraysnstrings;
 
 public class PalindromeAnalyser {
     private static final int START_CHAR = Character.getNumericValue('a');
