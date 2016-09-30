@@ -13,11 +13,15 @@ public class LinkedListTest {
         LinkedList<Integer> list = new LinkedList<>();
         list.addToTail(3);
         list.addToTail(4);
+        list.addToTail(10);
 
         assertThat(list.root.data, is(3));
         list.root = list.root.next;
 
         assertThat(list.root.data, is(4));
+        list.root = list.root.next;
+
+        assertThat(list.root.data, is(10));
         list.root = list.root.next;
 
         assertThat(list.root, nullValue());
