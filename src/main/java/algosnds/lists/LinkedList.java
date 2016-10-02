@@ -13,8 +13,7 @@ public class LinkedList<T> {
             while (temp.next != null) {
                 temp = temp.next;
             }
-            Node<T> newNode = newNode(data);
-            temp.next = newNode;
+            temp.next = newNode(data);
         }
     }
 }

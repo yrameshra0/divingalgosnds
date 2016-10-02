@@ -14,7 +14,7 @@ public class PalindromeAnalyser {
         for (int frequency : table) {
             if ((frequency % 2) == 1) {
                 if (oddCharacter)
-                    return false; // As we are encoutering more than one odd character
+                    return false; // As we are encountering more than one odd character
                 oddCharacter = true;
             }
         }

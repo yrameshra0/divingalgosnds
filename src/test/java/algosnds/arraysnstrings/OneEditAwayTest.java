@@ -10,7 +10,7 @@ public class OneEditAwayTest {
     OneEditAway oneEditAway = new OneEditAway();
 
     @Test
-    public void verfiy_input_string_output_string_are_one_edit_away() {
+    public void verify_two_strings_are_one_edit_away() {
         assertThat(oneEditAway.verify("pale", "ple"), is(true));
         assertThat(oneEditAway.verify("ple", "pale"), is(true));
         assertThat(oneEditAway.verify("pale", "pabe"), is(true));

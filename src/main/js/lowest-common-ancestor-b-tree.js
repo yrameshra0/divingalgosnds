@@ -1,6 +1,6 @@
 export default function lowestCommonAncestor(curr, nodeA, nodeB) {
 
-    if (curr == undefined)
+    if (curr === undefined)
         return undefined;
 
     if (curr.data === nodeA || curr.data === nodeB)
