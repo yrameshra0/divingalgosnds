@@ -6,6 +6,15 @@ import static algosnds.lists.Node.newNode;
 
 public class LinkedList<T> {
     public Node<T> root;
+    private int length = 0;
+
+    public void addToHead(T data) {
+        Node<T> newNode = newNode(data);
+        newNode.next = root;
+        root = newNode;
+
+        length++;
+    }
 
     public void addToTail(T data) {
         if (root == null)
@@ -17,6 +26,12 @@ public class LinkedList<T> {
             }
             temp.next = newNode(data);
         }
+
+        length++;
+    }
+
+    public int length() {
+        return length;
     }
 
     @Override
