@@ -2,11 +2,11 @@ package algosnds.lists;
 
 import java.util.Stack;
 
-public class PalindromeList {
+public class PalindromeList<T> {
 
-    private boolean compareLists(LinkedList<String> originalList, LinkedList<String> reversedList) {
-        Node<String> original = originalList.root;
-        Node<String> reversed = reversedList.root;
+    private boolean compareLists(LinkedList<T> originalList, LinkedList<T> reversedList) {
+        Node<T> original = originalList.root;
+        Node<T> reversed = reversedList.root;
 
         while (original != null) {
             if (!original.data.equals(reversed.data))
@@ -19,9 +19,9 @@ public class PalindromeList {
         return true;
     }
 
-    private LinkedList<String> reverse(LinkedList<String> original) {
-        Node<String> temp = original.root;
-        LinkedList<String> reversed = new LinkedList<>();
+    private LinkedList<T> reverse(LinkedList<T> original) {
+        Node<T> temp = original.root;
+        LinkedList<T> reversed = new LinkedList<>();
 
         while (temp != null) {
             reversed.addToHead(temp.data);
@@ -31,14 +31,14 @@ public class PalindromeList {
         return reversed;
     }
 
-    public boolean verifyByReverse(LinkedList<String> original) {
+    public boolean verifyByReverse(LinkedList<T> original) {
         return compareLists(original, reverse(original));
     }
 
-    public boolean verifyByRunner(LinkedList<String> original) {
-        Stack<String> stack = new Stack<>();
-        Node<String> fast = original.root;
-        Node<String> slow = original.root;
+    public boolean verifyByRunner(LinkedList<T> original) {
+        Stack<T> stack = new Stack<>();
+        Node<T> fast = original.root;
+        Node<T> slow = original.root;
 
         while (fast != null && fast.next != null) {
             stack.push(slow.data);
@@ -52,8 +52,8 @@ public class PalindromeList {
             slow = slow.next;
 
         while (!stack.isEmpty()) {
-            String firstHalfData = stack.pop();
-            String secondHalfData = slow.data;
+            T firstHalfData = stack.pop();
+            T secondHalfData = slow.data;
 
             if (!firstHalfData.equals(secondHalfData))
                 return false;
@@ -64,11 +64,11 @@ public class PalindromeList {
         return true;
     }
 
-    public boolean verifyByRecursion(LinkedList<String> list) {
+    public boolean verifyByRecursion(LinkedList<T> list) {
         return isPalindromeRecursive(list.root, list.length()).result;
     }
 
-    private Outcome isPalindromeRecursive(Node<String> link, int length) {
+    private Outcome isPalindromeRecursive(Node<T> link, int length) {
         if (length == 0)
             return new Outcome(link);
         if (length == 1)
@@ -86,10 +86,10 @@ public class PalindromeList {
     }
 
     class Outcome {
-        private Node<String> node;
+        private Node<T> node;
         private boolean result;
 
-        Outcome(Node<String> node) {
+        Outcome(Node<T> node) {
             this.node = node;
             this.result = true;
         }

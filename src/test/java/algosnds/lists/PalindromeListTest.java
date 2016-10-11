@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PalindromeListTest {
-    PalindromeList palindrome = new PalindromeList();
+    PalindromeList<String> palindrome = new PalindromeList<>();
 
     private LinkedList<String> palindromeList() {
         LinkedList<String> list = new LinkedList<>();
