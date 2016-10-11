@@ -40,8 +40,7 @@ public class LinkedListTest {
         assertThat(list.root.data, is(1));
     }
 
-
-    private <T> LinkedList<T> createList(T... elements) {
+    public static <T> LinkedList<T> createList(T... elements) {
         LinkedList<T> finalList = new LinkedList<>();
 
         Stream.of(elements).forEach(finalList::addToTail);
