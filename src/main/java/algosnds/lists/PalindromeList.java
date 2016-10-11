@@ -63,4 +63,35 @@ public class PalindromeList {
 
         return true;
     }
+
+    public boolean verifyByRecursion(LinkedList<String> list) {
+        return isPalindromeRecursive(list.root, list.length()).result;
+    }
+
+    private Outcome isPalindromeRecursive(Node<String> link, int length) {
+        if (length == 0)
+            return new Outcome(link);
+        if (length == 1)
+            return new Outcome(link.next);
+
+        Outcome outcome = isPalindromeRecursive(link.next, length - 2);
+
+        if (!outcome.result || outcome.node == null)
+            return outcome;
+
+        outcome.result = link.data.equals(outcome.node.data);
+        outcome.node = outcome.node.next;
+
+        return outcome;
+    }
+
+    class Outcome {
+        private Node<String> node;
+        private boolean result;
+
+        Outcome(Node<String> node) {
+            this.node = node;
+            this.result = true;
+        }
+    }
 }

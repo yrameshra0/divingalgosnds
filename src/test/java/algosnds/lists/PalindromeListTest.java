@@ -2,6 +2,8 @@ package algosnds.lists;
 
 import org.junit.Test;
 
+import java.util.function.Function;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -17,25 +19,28 @@ public class PalindromeListTest {
         return list;
     }
 
-    @Test
-    public void verify_palindrome_by_reversing_list() {
+    private void assertPalindrome(Function<LinkedList<String>, Boolean> function) {
         LinkedList<String> list = palindromeList();
 
-        assertThat(palindrome.verifyByReverse(list), is(true));
+        assertThat(function.apply(list), is(true));
 
         list.addToTail("a");
 
-        assertThat(palindrome.verifyByReverse(list), is(false));
+        assertThat(function.apply(list), is(false));
+    }
+
+    @Test
+    public void verify_palindrome_by_reversing_list() {
+        assertPalindrome(palindrome::verifyByReverse);
     }
 
     @Test
     public void verify_palindrome_by_runner_traversal() {
-        LinkedList<String> list = palindromeList();
+        assertPalindrome(palindrome::verifyByRunner);
+    }
 
-        assertThat(palindrome.verifyByRunner(list), is(true));
-
-        list.addToTail("a");
-
-        assertThat(palindrome.verifyByRunner(list), is(false));
+    @Test
+    public void verify_palindrome_by_recursion() throws Exception {
+        assertPalindrome(palindrome::verifyByRecursion);
     }
 }
