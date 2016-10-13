@@ -19,12 +19,11 @@ public class Node<T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node<?> node = (Node<?>) o;
-        return Objects.equals(data, node.data) &&
-                Objects.equals(next, node.next);
+        return Objects.equals(data, node.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(data, next);
+        return Objects.hash(data);
     }
 }
