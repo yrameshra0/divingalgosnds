@@ -4,11 +4,17 @@ import java.util.EmptyStackException;
 
 public class Stack<T> {
     private StackNode<T> top;
+    private int length = 0;
+
+    public int length(){
+        return length;
+    }
 
     public void push(T element) {
         StackNode<T> newNode = new StackNode<>(element);
         newNode.next = top;
         top = newNode;
+        length += 1;
     }
 
     public T pop() {

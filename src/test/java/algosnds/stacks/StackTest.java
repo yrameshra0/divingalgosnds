@@ -54,4 +54,13 @@ public class StackTest {
             assertEquals(e.getClass(), EmptyStackException.class);
         }
     }
+
+    @Test
+    public void stack_length(){
+        assertThat(stack.length(), is(0));
+
+        stack.push(1);
+
+        assertThat(stack.length(), is(1));
+    }
 }
