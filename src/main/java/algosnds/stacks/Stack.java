@@ -6,7 +6,7 @@ public class Stack<T> {
     private StackNode<T> top;
     private int length = 0;
 
-    public int length(){
+    public int length() {
         return length;
     }
 
@@ -22,6 +22,8 @@ public class Stack<T> {
 
         T data = top.data;
         top = top.next;
+        length -= 1;
+        
         return data;
     }
 

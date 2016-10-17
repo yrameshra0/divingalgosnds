@@ -56,11 +56,15 @@ public class StackTest {
     }
 
     @Test
-    public void stack_length(){
+    public void stack_length() {
         assertThat(stack.length(), is(0));
 
         stack.push(1);
 
         assertThat(stack.length(), is(1));
+
+        stack.pop();
+
+        assertThat(stack.length(), is(0));
     }
 }
