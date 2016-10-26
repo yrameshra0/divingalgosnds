@@ -3,43 +3,54 @@ package algosnds.general;
 public class BinaryTreeToDoublyLinkedList {
 
     public ListNode convertTree(TreeNode root) {
-        ListNode node = recursive(root);
+        ListNode listNode = constructLinkedList(root);
 
-        while (node.next != null)
-            node = node.next;
+        listNode = moveToHead(listNode);
 
-        return node;
+        return listNode;
     }
 
-    private ListNode recursive(TreeNode node) {
+    private ListNode constructLinkedList(TreeNode node) {
         if (node.left == null && node.right == null)
             return new ListNode(node.data);
 
-        ListNode currenListtNode = new ListNode(node.data);
+        ListNode currentListNode = new ListNode(node.data);
 
         if (node.left != null) {
-            ListNode leftListNode = recursive(node.left);
+            ListNode leftListNode = constructLinkedList(node.left);
 
-            // Find inorder predecessor. After this loop, left
-            // will point to the inorder predecessor
-            for (; leftListNode.next != null; leftListNode = leftListNode.next) ;
+            // Find inorder predecessor. After this loop, left will point to the inorder predecessor
+            leftListNode = moveToTail(leftListNode);
 
-            leftListNode.next = currenListtNode;
-            currenListtNode.previous = leftListNode;
+            leftListNode.next = currentListNode;
+            currentListNode.previous = leftListNode;
         }
 
         if (node.right != null) {
-            ListNode rightListNode = recursive(node.right);
+            ListNode rightListNode = constructLinkedList(node.right);
 
-            // Find inorder successor. After this loop, right
-            // will point to the inorder successor
-            for (; rightListNode.previous != null; rightListNode = rightListNode.previous) ;
+            // Find inorder successor. After this loop, right will point to the inorder successor
+            rightListNode = moveToHead(rightListNode);
 
-            rightListNode.previous = currenListtNode;
-            currenListtNode.next = rightListNode;
+            rightListNode.previous = currentListNode;
+            currentListNode.next = rightListNode;
         }
 
-        return currenListtNode;
+        return currentListNode;
+    }
+
+    private ListNode moveToTail(ListNode listNode) {
+        while (listNode.next != null)
+            listNode = listNode.next;
+
+        return listNode;
+    }
+
+    private ListNode moveToHead(ListNode listNode) {
+        while (listNode.previous != null)
+            listNode = listNode.previous;
+
+        return listNode;
     }
 
     public static class TreeNode {
