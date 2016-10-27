@@ -13,6 +13,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SerializeDeserializeBinaryTreeTest {
     private SerializeDeserializeBinaryTree serializeDeserializeBinaryTree = new SerializeDeserializeBinaryTree();
 
+    private LinkedList<Integer> createList(Integer... elements) {
+        LinkedList<Integer> list = new LinkedList<>();
+
+        Stream.of(elements).sequential().forEach(list::addToTail);
+
+        return list;
+    }
+
     @Test
     public void serialized_tree() throws Exception {
         Node root = newNode(20);
@@ -29,11 +37,14 @@ public class SerializeDeserializeBinaryTreeTest {
         assertThat(serializedList, is(expectedList));
     }
 
-    private LinkedList<Integer> createList(Integer... elements) {
-        LinkedList<Integer> list = new LinkedList<>();
+    @Test
+    public void deserialize_tree() throws Exception {
+        LinkedList<Integer> serializedInput = createList(20, 8, 4, -1, -1, 12, 10, -1, -1, 14, -1, -1, 22, -1, -1);
+        Node root = serializeDeserializeBinaryTree.deserialize(serializedInput);
 
-        Stream.of(elements).sequential().forEach(list::addToTail);
+        LinkedList<Integer> inorderList = serializeDeserializeBinaryTree.inorder(root);
+        LinkedList<Integer> expectedInorderList = createList(4, 8, 10, 12, 14, 20, 22);
 
-        return list;
+        assertThat(inorderList, is(expectedInorderList));
     }
 }
