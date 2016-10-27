@@ -1,7 +1,5 @@
 package algosnds.lists;
 
-import java.util.Objects;
-
 import static algosnds.lists.Node.newNode;
 
 public class LinkedList<T> {
@@ -38,13 +36,21 @@ public class LinkedList<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LinkedList<?> that = (LinkedList<?>) o;
-        return Objects.equals(root, that.root);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(root);
+        Node<T> current = this.root;
+        Node<?> that = ((LinkedList<?>) o).root;
+
+        boolean equals = true;
+        while (current != null) {
+            if (!current.data.equals(that.data)) {
+                equals = false;
+                break;
+            }
+            current = current.next;
+            that = that.next;
+        }
+
+        return equals;
     }
 
     @Override
