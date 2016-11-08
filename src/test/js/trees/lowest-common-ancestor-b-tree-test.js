@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import lowestCommonAncestor from '../../main/js/lowest-common-ancestor-b-tree';
+import lowestCommonAncestor from '../../../main/js/trees/lowest-common-ancestor-b-tree';
 
 describe('Lowest common ancestor in Binary Tree', () => {
     it('Gives lowest common ancestor between 2 nodes of tree', () => {

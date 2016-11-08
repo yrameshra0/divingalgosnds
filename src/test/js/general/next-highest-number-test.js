@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import nextHighestNo from '../../main/js/next-highest-number';
+import nextHighestNo from '../../../main/js/general/next-highest-number';
 
 describe('Next Highest Number for given number', () => {
     it('Returns next highest number', () => {

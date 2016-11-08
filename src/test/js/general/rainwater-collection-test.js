@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import waterCollected from '../../main/js/rainwater-collection';
+import waterCollected from '../../../main/js/general/rainwater-collection';
 
 describe('Rainwater collection problem', () => {
     it('Collect max water between given towers', () => {

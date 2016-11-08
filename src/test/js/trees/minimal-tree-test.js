@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import convertToTree from '../../main/js/minimal-tree';
+import convertToTree from '../../../main/js/trees/minimal-tree';
 
 describe('Convert increasing order array to binary tree', () => {
 

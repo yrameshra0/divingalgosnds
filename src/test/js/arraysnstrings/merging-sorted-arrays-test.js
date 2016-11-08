@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import mergeSortedArrays from '../../main/js/merging-sorted-arrays';
+import mergeSortedArrays from '../../../main/js/arraysnstrings/merging-sorted-arrays';
 
 describe('Merge sorted arrays', () => {
     it('Folding one array into another with sorted order', () => {

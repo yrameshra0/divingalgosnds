@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import searchRotated from '../../main/js/searching-rotated-sorted-array';
+import searchRotated from '../../../main/js/arraysnstrings/searching-rotated-sorted-array';
 
 describe('Searching rotated array', () => {
     it('Rotated at right', () => {

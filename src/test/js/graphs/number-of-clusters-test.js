@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import fetchClusters from '../../main/js/number-of-clusters';
+import fetchClusters from '../../../main/js/graphs/number-of-clusters';
 
 describe('Total number of clusters of elements', () => {
     it('Calculates clusters inside a 2D Matrix', () => {
