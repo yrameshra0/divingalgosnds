@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import createMaxQueue from '../../../main/js/queues/queue-with-max';
+import createMaxQueue from '../../../../main/javascript/algosnds/queues/queue-with-max';
 
 describe('Queuing elements and keeping track of max of queue', () => {
     let queueWithMax;

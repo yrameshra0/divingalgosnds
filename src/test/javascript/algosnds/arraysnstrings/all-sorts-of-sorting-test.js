@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import * as sortLib from '../../../main/js/arraysnstrings/all-sorts-of-sorting';
+import * as sortLib from '../../../../main/javascript/algosnds/arraysnstrings/all-sorts-of-sorting';
 
 describe('Blanket for all known sorting algorithms', () => {
     let inputDataArray = [10, 3, 1, 9, 7, 6, 5, 2, 4, 8],

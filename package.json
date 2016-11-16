@@ -4,7 +4,7 @@
   "description": "Package for practicing different algorithms and data structures",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -w ./src/test/js/**/*.js  --compilers js:babel-core/register --reporter spec"
+    "test": "mocha -w ./src/test/javascript/**/*.js  --compilers js:babel-core/register --reporter spec"
   },
   "repository": {
     "type": "git",

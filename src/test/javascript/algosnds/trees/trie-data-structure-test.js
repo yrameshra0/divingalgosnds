@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import * as trieDS from '../../../main/js/trees/trie-data-structure';
+import * as trieDS from '../../../../main/javascript/algosnds/trees/trie-data-structure';
 
 describe('Trie Data Structre implementation', () => {
     it('Serialize the key-value pair into trie structure', () => {

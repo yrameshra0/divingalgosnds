@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import * as postFixBST from '../../../main/js/trees/post-fix-bst-serialize-deserialize';
+import * as postFixBST from '../../../../main/javascript/algosnds/trees/post-fix-bst-serialize-deserialize';
 
 describe('Verify post-fix BST data de serialization', () => {
     let finalTree = {
