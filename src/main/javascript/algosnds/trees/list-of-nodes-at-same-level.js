@@ -21,31 +21,31 @@ let recursiveLevelOrderList = function recursiveLevelOrderList(tree) {
         } )(tree, 0, []);
     },
     bfsLevelOrderList = function bfsLevelOrderList(tree) {
-        let current = [],
+        let queue = [],
             accumulator = [],
             fillLevelArray = function fillLevelArray() {
                 let levelArray = [];
-                current.forEach((element) => {
+                queue.forEach((element) => {
                     levelArray.push(element.data);
                 });
 
                 accumulator.push(levelArray);
             };
 
-        current.push(tree);
+        queue.push(tree);
 
-        while (current.length > 0) {
+        while (queue.length > 0) {
             fillLevelArray(); // Adding Previous Level
-            let parents = current; // Moving with next levels
+            let parents = queue; // Moving with next levels
 
-            current = [];
+            queue = [];
 
             parents.forEach((parent) => {
                 if (parent !== undefined) {
                     if (parent.left !== undefined)
-                        current.push(parent.left);
+                        queue.push(parent.left);
                     if (parent.right !== undefined)
-                        current.push(parent.right);
+                        queue.push(parent.right);
                 }
             });
         }
