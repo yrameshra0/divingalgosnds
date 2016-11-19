@@ -24,12 +24,12 @@ public class TippingPointInHillTest {
     }
 
     @Test
-    public void tipping_point_at_every_increasing_hill() throws Exception {
+    public void tipping_point_at_ever_increasing_hill() throws Exception {
         assertThat(tippingPoint.search(new int[]{10, 12, 14, 16, 18}), is(new Occurrence(18, 4)));
     }
 
     @Test
-    public void tipping_point_at_every_decreasing_hill() throws Exception {
+    public void tipping_point_at_ever_decreasing_hill() throws Exception {
         assertThat(tippingPoint.search(new int[]{18, 16, 14, 12, 10}), is(new Occurrence(18, 0)));
     }
 }
