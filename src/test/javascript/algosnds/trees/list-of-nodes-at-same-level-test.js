@@ -1,16 +1,16 @@
 import { assert } from 'chai';
-import createTreeNode from '../../../../main/javascript/algosnds/trees/tree-node';
+import { createTreeNode } from '../../../../main/javascript/algosnds/trees/tree-node';
 import * as converter from '../../../../main/javascript/algosnds/trees/list-of-nodes-at-same-level';
 
 describe('Convert tree to list', () => {
     // ----------------------------
-    //		  	  1      Level 0
-    //    	 	/   \
-    //         2    3 	 Level 1
+    //            1      Level 0
+    //          /   \
+    //         2    3    Level 1
     //        / \  / \
-    //       4  5 10 11	 Level 2
+    //       4  5 10 11  Level 2
     //      / \
-    //     7  8		     Level 3      
+    //     7  8          Level 3      
     // ----------------------------
     let tree = createTreeNode(1);
     tree.left = createTreeNode(2);

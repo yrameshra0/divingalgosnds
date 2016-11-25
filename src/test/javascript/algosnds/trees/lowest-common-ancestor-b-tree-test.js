@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import lowestCommonAncestor from '../../../../main/javascript/algosnds/trees/lowest-common-ancestor-b-tree';
-import createTreeNode from '../../../../main/javascript/algosnds/trees/tree-node';
+import { createTreeNode } from '../../../../main/javascript/algosnds/trees/tree-node';
 
 describe('Lowest common ancestor in Binary Tree', () => {
     it('Gives lowest common ancestor between 2 nodes of tree', () => {

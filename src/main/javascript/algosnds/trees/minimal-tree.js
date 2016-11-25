@@ -1,4 +1,4 @@
-import createTreeNode from '../../../../main/javascript/algosnds/trees/tree-node';
+import { createTreeNode } from '../../../../main/javascript/algosnds/trees/tree-node';
 
 export default function convertToTree(inoderArray) {
     return ( function recurTreeBuild(start, end) {

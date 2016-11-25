@@ -1,7 +1,6 @@
-
 import { assert } from 'chai';
 import convertToTree from '../../../../main/javascript/algosnds/trees/minimal-tree';
-import createTreeNode from '../../../../main/javascript/algosnds/trees/tree-node';
+import { createTreeNode } from '../../../../main/javascript/algosnds/trees/tree-node';
 
 describe('Convert increasing order array to binary tree', () => {
 

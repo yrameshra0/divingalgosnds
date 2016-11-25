@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import * as bstValidator from '../../../../main/javascript/algosnds/trees/check-binary-tree-an-valid-bst';
-import createTreeNode from '../../../../main/javascript/algosnds/trees/tree-node';
+import { createTreeNode } from '../../../../main/javascript/algosnds/trees/tree-node';
 
 describe('Validate given Binary Tree if it is an Binary Search Tree', () => {
     /**
