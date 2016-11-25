@@ -1,5 +1,6 @@
 import { assert } from 'chai';
-import createTreeNode from '../../../../main/javascript/algosnds/trees/tree-node';
+import _ from 'lodash';
+import { createTreeNode, createTreeNodeWithParent } from '../../../../main/javascript/algosnds/trees/tree-node';
 
 describe('Generate tree', () => {
     it('Create tree node for formulating entire tree', () => {
@@ -19,6 +20,42 @@ describe('Generate tree', () => {
                 left: undefined,
                 right: undefined
             }
+        };
+
+        assert.deepEqual(tree, expectedTree);
+    });
+
+    it('Create tree node with paren for formulating entire tree', () => {
+        let parent = createTreeNodeWithParent(5, undefined);
+        let tree = _.clone(parent);
+        tree.left = createTreeNodeWithParent(1, parent);
+        tree.right = createTreeNodeWithParent(10, parent);
+
+        let expectedTree = {
+            data: 5,
+            left: {
+                data: 1,
+                left: undefined,
+                right: undefined,
+                parent: {
+                    data: 5,
+                    left: undefined,
+                    right: undefined,
+                    parent: undefined
+                }
+            },
+            right: {
+                data: 10,
+                left: undefined,
+                right: undefined,
+                parent: {
+                    data: 5,
+                    left: undefined,
+                    right: undefined,
+                    parent: undefined
+                }
+            },
+            parent: undefined
         };
 
         assert.deepEqual(tree, expectedTree);
