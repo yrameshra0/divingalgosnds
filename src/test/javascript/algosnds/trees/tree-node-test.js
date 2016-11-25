@@ -1,5 +1,4 @@
 import { assert } from 'chai';
-import _ from 'lodash';
 import { createTreeNode, createTreeNodeWithParent } from '../../../../main/javascript/algosnds/trees/tree-node';
 
 describe('Generate tree', () => {
@@ -26,8 +25,9 @@ describe('Generate tree', () => {
     });
 
     it('Create tree node with paren for formulating entire tree', () => {
-        let parent = createTreeNodeWithParent(5, undefined);
-        let tree = _.clone(parent);
+        let parent = createTreeNodeWithParent(5, undefined),
+            tree = Object.assign({}, parent);
+
         tree.left = createTreeNodeWithParent(1, parent);
         tree.right = createTreeNodeWithParent(10, parent);
 
