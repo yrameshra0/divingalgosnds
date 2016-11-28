@@ -3,7 +3,7 @@ export default function lowestCommonAncestor(curr, nodeA, nodeB) {
     if (curr === undefined)
         return undefined;
 
-    if (curr.data === nodeA || curr.data === nodeB)
+    if (curr === nodeA || curr === nodeB)
         return curr;
 
     let left = lowestCommonAncestor(curr.left, nodeA, nodeB);
