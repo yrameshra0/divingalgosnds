@@ -1,19 +1,20 @@
 import { assert } from 'chai';
-import generateBuildOrder from '../../../../main/javascript/algosnds/graphs/build-order-generation';
+import { buildOrderByLookUp, buildOrderByDfsLookUp } from '../../../../main/javascript/algosnds/graphs/build-order-generation';
 
 describe('Generate build order', () => {
-    it('Build order with resolvalbe dependencies', () => {
-        let projects = ['a', 'b', 'c', 'd', 'e', 'f'],
-            dependencies = [['a', 'd'], ['f', 'b'], ['b', 'd'], ['f', 'a'], ['d', 'c']],
-            expectedOrder = ['f', 'e', 'a', 'b', 'd', 'c'];
+    let resolvableProjects = ['a', 'b', 'c', 'd', 'e', 'f'],
+        resolvableDependencies = [['a', 'd'], ['f', 'b'], ['b', 'd'], ['f', 'a'], ['d', 'c']],
+        resolvableExpectedOrder = ['f', 'e', 'a', 'b', 'd', 'c'],
+        nonResolvableProjects = ['a', 'b', 'c'],
+        nonResolvableDependencies = [['a', 'b'], ['b', 'c'], ['c', 'b']];
 
-        assert.sameMembers(generateBuildOrder(projects, dependencies), expectedOrder);
+    it('Generate build order by normal look up', () => {
+        assert.sameMembers(buildOrderByLookUp(resolvableProjects, resolvableDependencies), resolvableExpectedOrder);
+        assert.isUndefined(buildOrderByLookUp(nonResolvableProjects, nonResolvableDependencies));
     });
 
-    it('Build order with cicylic dependencies', () => {
-        let projects = ['a', 'b', 'c'],
-            dependencies = [['a', 'b'], ['b', 'c'], ['c', 'b']];
-
-        assert.isUndefined(generateBuildOrder(projects, dependencies));
+    it('Generate build order by DFS look up', () => {
+        // assert.sameMembers(buildOrderByDfsLookUp(resolvableProjects, resolvableDependencies), resolvableExpectedOrder);
+        assert.isUndefined(buildOrderByDfsLookUp(nonResolvableProjects, nonResolvableDependencies));
     });
 })

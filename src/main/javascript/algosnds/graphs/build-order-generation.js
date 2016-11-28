@@ -1,83 +1,98 @@
-export default function generateBuildOrder(projects, dependencies) {
-    let graph = function graph() {
-            let internalNodeMap = {},
-                nodes = [],
-                getOrCreateNode = function getOrCreateNode(projectName) {
-                    if (internalNodeMap[projectName] === undefined) {
-                        let newProject = project(projectName);
-                        internalNodeMap[projectName] = newProject;
-                        nodes.push(newProject);
-                    }
+const STATE = {
+    BLANK: 'BLANK',
+    PARTIAL: 'PARTIAL',
+    COMPLETED: 'COMPLETED'
+};
 
-                    return internalNodeMap[projectName];
-                },
-                addEdges = function addEdges(startEdge, endEdge) {
-                    let startNode = getOrCreateNode(startEdge),
-                        endNode = getOrCreateNode(endEdge);
+let graph = function graph() {
+        let nodeKeeper = {},
+            nodes = [],
+            getOrCreateNode = function getOrCreateNode(projectName) {
+                if (nodeKeeper[projectName] === undefined) {
+                    let newProject = project(projectName);
+                    nodeKeeper[projectName] = newProject;
+                    nodes.push(newProject);
+                }
 
-                    startNode.addNeighbor(endNode);
-                },
-                getNodes = function getNodes() {
-                    return nodes;
-                };
+                return nodeKeeper[projectName];
+            },
+            addEdges = function addEdges(startEdge, endEdge) {
+                let startNode = getOrCreateNode(startEdge),
+                    endNode = getOrCreateNode(endEdge);
 
-            return {
-                getOrCreateNode: getOrCreateNode,
-                addEdges: addEdges,
-                getNodes: getNodes
+                startNode.addNeighbor(endNode);
+            },
+            getNodes = function getNodes() {
+                return nodes;
             };
-        },
-        project = function project(projectName) {
-            let name = projectName,
-                internalNodeMap = {},
-                children = [],
-                dependencies = 0,
-                incrementDependencies = function incrementDependencies() {
-                    dependencies++;
-                },
-                decrementDependencies = function decrementDependencies() {
-                    dependencies--;
-                },
-                getDependencies = function getDependencies() {
-                    return dependencies;
-                },
-                addNeighbor = function addNeighbor(dependentProject) {
-                    if (internalNodeMap[dependentProject.getName()] === undefined) {
-                        internalNodeMap[dependentProject.getName] = dependentProject;
-                        children.push(dependentProject);
-                        dependentProject.incrementDependencies();
-                    }
-                },
-                getChildern = function getChildern() {
-                    return children
-                },
-                getName = function getName() {
-                    return name
-                };
 
-            return {
-                getName: getName,
-                addNeighbor: addNeighbor,
-                incrementDependencies: incrementDependencies,
-                decrementDependencies: decrementDependencies,
-                getChildern: getChildern,
-                getDependencies: getDependencies
+        return {
+            getOrCreateNode: getOrCreateNode,
+            addEdges: addEdges,
+            getNodes: getNodes
+        };
+    },
+    project = function project(projectName) {
+        let name = projectName,
+            nodeKeeper = {},
+            children = [],
+            state = STATE.BLANK,
+            dependencies = 0,
+            incrementDependencies = function incrementDependencies() {
+                dependencies++;
+            },
+            decrementDependencies = function decrementDependencies() {
+                dependencies--;
+            },
+            getDependencies = function getDependencies() {
+                return dependencies;
+            },
+            addNeighbor = function addNeighbor(dependentProject) {
+                if (nodeKeeper[dependentProject.getName()] === undefined) {
+                    nodeKeeper[dependentProject.getName] = dependentProject;
+                    children.push(dependentProject);
+                    dependentProject.incrementDependencies();
+                }
+            },
+            getChildern = function getChildern() {
+                return children
+            },
+            getName = function getName() {
+                return name
+            },
+            getState = function getState() {
+                return state
+            },
+            setState = function setState(currentState) {
+                state = currentState
             };
-        },
-        builtGraph = ( function graphBuilder(projects, dependencies) {
-            let newGraph = graph();
 
-            projects.forEach((project) => {
-                newGraph.getOrCreateNode(project);
-            });
+        return {
+            getName: getName,
+            addNeighbor: addNeighbor,
+            incrementDependencies: incrementDependencies,
+            decrementDependencies: decrementDependencies,
+            getChildern: getChildern,
+            getDependencies: getDependencies,
+            getState: getState,
+            setState: setState
+        };
+    },
+    newGraph = function graphBuilder(projects, dependencies) {
+        let newGraph = graph();
 
-            dependencies.forEach((dependenciesPair) => {
-                newGraph.addEdges(dependenciesPair[0], dependenciesPair[1]);
-            })
+        projects.forEach((project) => {
+            newGraph.getOrCreateNode(project);
+        });
 
-            return newGraph;
-        } )(projects, dependencies);
+        dependencies.forEach((dependenciesPair) => {
+            newGraph.addEdges(dependenciesPair[0], dependenciesPair[1]);
+        })
 
+        return newGraph;
+    };
+
+function buildOrderByLookUp(projects, dependencies) {
 
     return ( function orderProjects(projects) {
         let order = [],
@@ -108,5 +123,44 @@ export default function generateBuildOrder(projects, dependencies) {
         }
 
         return order.map(project => project.getName());
-    } )(builtGraph.getNodes());
+    } )(newGraph(projects, dependencies).getNodes());
 }
+
+function buildOrderByDfsLookUp(projects, dependencies) {
+
+    return ( function orderProjects(projects) {
+        let order = [];
+
+        for (let i = 0, project = projects[i]; i < projects.length; i++) {
+            if (project.getState() === STATE.BLANK) {
+                if (!dfs(project))
+                    return undefined;
+            }
+        }
+
+
+        function dfs(project) {
+            if (project.getState() === STATE.PARTIAL)
+                return false;
+
+            if (project.getState() === STATE.BLANK) {
+                project.setState(STATE.PARTIAL);
+                let children = project.getChildern();
+
+                for (let i = 0, child = children[i]; i < children.length; i++) {
+                    if (!dfs(child))
+                        return false;
+                }
+
+                project.setState(STATE.COMPLETED);
+                order.push(project);
+            }
+
+            return true;
+        }
+
+        return order.map(project => project.getName());
+    } )(newGraph(projects, dependencies).getNodes());
+}
+
+export { buildOrderByLookUp, buildOrderByDfsLookUp };
