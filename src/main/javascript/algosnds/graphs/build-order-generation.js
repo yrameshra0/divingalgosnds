@@ -96,7 +96,7 @@ function buildOrderByLookUp(projects, dependencies) {
 
     return ( function orderProjects(projects) {
         let order = [],
-            endOfList = addNonDependentProjects(order, projects, 0),
+            endOfList = addNonDependentProjects(projects, 0),
             toBeProcessed = 0;
 
         while (toBeProcessed < projects.length) {
@@ -107,11 +107,11 @@ function buildOrderByLookUp(projects, dependencies) {
             let children = current.getChildern();
             children.forEach(child => child.decrementDependencies());
 
-            endOfList = addNonDependentProjects(order, children, endOfList);
+            endOfList = addNonDependentProjects(children, endOfList);
             toBeProcessed++;
         }
 
-        function addNonDependentProjects(order, projects, offset) {
+        function addNonDependentProjects(projects, offset) {
             projects.forEach((project) => {
                 if (project.getDependencies() === 0) {
                     order[offset] = project;
@@ -137,7 +137,6 @@ function buildOrderByDfsLookUp(projects, dependencies) {
                     return undefined;
             }
         }
-
 
         function dfs(project) {
             if (project.getState() === STATE.PARTIAL)
