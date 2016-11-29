@@ -1,4 +1,4 @@
-export default function lowestCommonAncestor(curr, nodeA, nodeB) {
+export default function firstCommonAncestor(curr, nodeA, nodeB) {
     let newResult = function newResult(node, ancestor) {
             return {
                 node: node,

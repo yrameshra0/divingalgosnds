@@ -1,8 +1,8 @@
 import { assert } from 'chai';
-import lowestCommonAncestor from '../../../../main/javascript/algosnds/trees/lowest-common-ancestor-b-tree';
+import firstCommonAncestor from '../../../../main/javascript/algosnds/trees/first-common-ancestor-b-tree';
 import { createTreeNode } from '../../../../main/javascript/algosnds/trees/tree-node';
 
-describe('Lowest common ancestor between two nodes in Binary Tree', () => {
+describe('First common ancestor between two nodes in Binary Tree', () => {
     let tree = createTreeNode(1);
     tree.left = createTreeNode(2);
     tree.left.left = createTreeNode(4);
@@ -16,8 +16,8 @@ describe('Lowest common ancestor between two nodes in Binary Tree', () => {
         node2 = tree.left,
         randomNode = createTreeNode(100);
 
-    it('Gives lowest common ancestor using no parent traversal', () => {
-        assert.deepEqual(lowestCommonAncestor(tree, node4, node8), node2);
-        assert.isUndefined(lowestCommonAncestor(tree, node4, randomNode));
+    it('Common ancestor using no parent traversal', () => {
+        assert.deepEqual(firstCommonAncestor(tree, node4, node8), node2);
+        assert.isUndefined(firstCommonAncestor(tree, node4, randomNode));
     });
 });
