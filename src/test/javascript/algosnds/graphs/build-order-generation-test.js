@@ -14,7 +14,7 @@ describe('Generate build order', () => {
     });
 
     it('Generate build order by DFS look up', () => {
-        // assert.sameMembers(buildOrderByDfsLookUp(resolvableProjects, resolvableDependencies), resolvableExpectedOrder);
+        assert.sameMembers(buildOrderByDfsLookUp(resolvableProjects, resolvableDependencies), resolvableExpectedOrder);
         assert.isUndefined(buildOrderByDfsLookUp(nonResolvableProjects, nonResolvableDependencies));
     });
 })

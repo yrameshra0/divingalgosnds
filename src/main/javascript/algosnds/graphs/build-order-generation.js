@@ -131,7 +131,9 @@ function buildOrderByDfsLookUp(projects, dependencies) {
     return ( function orderProjects(projects) {
         let order = [];
 
-        for (let i = 0, project = projects[i]; i < projects.length; i++) {
+        for (let i = 0; i < projects.length; i++) {
+            let project = projects[i];
+
             if (project.getState() === STATE.BLANK) {
                 if (!dfs(project))
                     return undefined;
@@ -146,7 +148,9 @@ function buildOrderByDfsLookUp(projects, dependencies) {
                 project.setState(STATE.PARTIAL);
                 let children = project.getChildern();
 
-                for (let i = 0, child = children[i]; i < children.length; i++) {
+                for (let i = 0; i < children.length; i++) {
+                    let child = children[i];
+
                     if (!dfs(child))
                         return false;
                 }
