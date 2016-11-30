@@ -1,4 +1,4 @@
-export default function firstCommonAncestor(curr, nodeA, nodeB) {
+function usingNonParentTraversal(curr, nodeA, nodeB) {
     let newResult = function newResult(node, ancestor) {
             return {
                 node: node,
@@ -35,3 +35,40 @@ export default function firstCommonAncestor(curr, nodeA, nodeB) {
 
     return result.node;
 }
+
+function usingOptimizedParentTraversal(tree, nodeA, nodeB) {
+    let covers = function covers(nodeA, nodeB) {
+            if (nodeA === undefined) return false;
+
+            if (nodeA === nodeB) return true;
+
+            return covers(nodeA.left, nodeB) || covers(nodeA.right, nodeB);
+        },
+        getSibling = function getSibling(node) {
+            if (node === undefined || node.parent === undefined) return undefined;
+
+            let parent = node.parent;
+
+            return parent.left === node ? parent.right : parent.left;
+        };
+
+    if (!covers(tree, nodeA) || !covers(tree, nodeB))
+        return undefined;
+
+    if (covers(nodeA, nodeB)) return nodeA;
+
+    if (covers(nodeB, nodeA)) return nodeB;
+
+    // Traversing upwards until we find the node that covers nodeB
+    let parent = nodeA.parent,
+        sibling = getSibling(nodeA);
+
+    while (!covers(sibling, nodeB)) {
+        sibling = getSibling(parent);
+        parent = parent.parent;
+    }
+
+    return parent;
+}
+
+export { usingNonParentTraversal, usingOptimizedParentTraversal };
