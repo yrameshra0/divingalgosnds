@@ -71,4 +71,36 @@ function usingOptimizedParentTraversal(tree, nodeA, nodeB) {
     return parent;
 }
 
-export { usingNonParentTraversal, usingOptimizedParentTraversal };
+function usingParentTraversal(nodeA, nodeB) {
+    let depth = function depth(node) {
+            let height = 0;
+            while (node !== undefined) {
+                height++;
+                node = node.parent;
+            }
+
+            return height;
+        },
+        goUpBy = function goUpBy(node, delta) {
+            while (delta > 0 && node !== undefined) {
+                node = node.parent;
+                delta--;
+            }
+
+            return node;
+        },
+        delta = depth(nodeA) - depth(nodeB),
+        shalower = delta > 0 ? nodeB : nodeA,
+        deeper = delta > 0 ? nodeA : nodeB;
+
+    deeper = goUpBy(deeper, Math.abs(delta));
+
+    while (shalower !== deeper && shalower !== undefined && deeper !== undefined) {
+        shalower = shalower.parent;
+        deeper = deeper.parent;
+    }
+
+    return shalower === undefined || deeper === undefined ? undefined : shalower;
+}
+
+export { usingNonParentTraversal, usingOptimizedParentTraversal, usingParentTraversal };

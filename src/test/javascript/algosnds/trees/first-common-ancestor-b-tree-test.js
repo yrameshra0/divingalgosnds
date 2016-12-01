@@ -37,4 +37,11 @@ describe('First common ancestor between two nodes in Binary Tree', () => {
         assert.deepEqual(firstCommonAncestor.usingOptimizedParentTraversal(tree, node4, node8), node2);
         assert.isUndefined(firstCommonAncestor.usingNonParentTraversal(tree, node4, randomNode));
     });
+
+    it('Common ancestor using parent traversal', () => {
+        assert.deepEqual(firstCommonAncestor.usingParentTraversal(node2, node8), node2);
+        assert.deepEqual(firstCommonAncestor.usingParentTraversal(node2, node1), node1);
+        assert.deepEqual(firstCommonAncestor.usingParentTraversal(node4, node8), node2);
+        assert.isUndefined(firstCommonAncestor.usingParentTraversal(node4, randomNode));
+    });
 });
