@@ -4,7 +4,7 @@ import allSequences from '../../../../main/javascript/algosnds/trees/bst-sequenc
 
 describe('Array sequences that could lead to creation of binary search tree', () => {
 
-    const bst = createTreeNode(2);
+    let bst = createTreeNode(2);
     bst.left = createTreeNode(1);
     bst.right = createTreeNode(3);
 
