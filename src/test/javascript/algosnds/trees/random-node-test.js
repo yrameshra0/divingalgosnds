@@ -40,10 +40,18 @@ describe('Tree implementation than can retrieve an any random node with equal pr
         assert.isUndefined(tree.find(NaN));
     });
 
+    it('Fetch random node from tree', () => {
+        const rightSubtreeElems = [20, 15, 25, 9, 17, 23, 28, 8, 10, 27, 30, 6, 7, 26];
+        let randomNode = tree.getRandomNode();
+        if (randomNode !== undefined)
+            assert.oneOf(randomNode.data, rightSubtreeElems);
+    });
+
     it('Delete node from tree', () => {
         assertDeletion(tree, 7);
         assertDeletion(tree, 6);
         assertDeletion(tree, 25);
+        assertDeletion(tree, 23);
     });
 
     function assertDeletion(tree, nodeData) {
@@ -51,6 +59,4 @@ describe('Tree implementation than can retrieve an any random node with equal pr
         tree.deleteNode(nodeData);
         assert.isUndefined(tree.find(nodeData));
     }
-
-    it('Fetch random node from tree');
 });

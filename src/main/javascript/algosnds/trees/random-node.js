@@ -52,19 +52,6 @@ export default function newTree() {
                 return findRecur(node.right, data);
             }
         },
-        decrementTreeSizes = function decrementTreeSizes(node) {
-            while (node.parent !== undefined) {
-                node.parent.size = node.parent.size - 1;
-                node = node.parent;
-            }
-        },
-        makeNodeUndefined = function(nodeToDelete) {
-            if (nodeToDelete.parent.left === nodeToDelete) {
-                nodeToDelete.parent.left = undefined;
-            } else {
-                nodeToDelete.parent.right = undefined;
-            }
-        },
         deleteNode = function deleteNode(data) {
             let nodeToDelete = find(data),
                 nodeToReInsert = [],
@@ -76,8 +63,20 @@ export default function newTree() {
                     decrementTreeSizes(node);
                     collectNodeData(node.left, array);
                     collectNodeData(node.right, array);
+                },
+                decrementTreeSizes = function decrementTreeSizes(node) {
+                    while (node.parent !== undefined) {
+                        node.parent.size = node.parent.size - 1;
+                        node = node.parent;
+                    }
+                },
+                makeNodeUndefined = function(nodeToDelete) {
+                    if (nodeToDelete.parent.left === nodeToDelete) {
+                        nodeToDelete.parent.left = undefined;
+                    } else {
+                        nodeToDelete.parent.right = undefined;
+                    }
                 };
-
 
             collectNodeData(nodeToDelete.left, nodeToReInsert);
             collectNodeData(nodeToDelete.right, nodeToReInsert);
@@ -85,11 +84,34 @@ export default function newTree() {
             makeNodeUndefined(nodeToDelete);
 
             nodeToReInsert.forEach((data) => insertInOrder(data));
+        },
+        // Returns a random number between min (inclusive) and max (exclusive)
+        getRandomArbitrary = function getRandomArbitrary(max, min = 1) {
+            return Math.floor(Math.random() * (max - min) + min);
+        },
+        getRandomNode = function getRandomNode() {
+            if (root === undefined) return;
+
+            const levelsToMove = getRandomArbitrary(root.size);
+            return getIthNode(root, levelsToMove);
+
+        },
+        getIthNode = function getIthNode(node, level) {
+            const leftSize = node === undefined || node.left === undefined ? 0 : node.left.size;
+            if (level < leftSize) {
+                return getIthNode(node.left, level);
+            } else if (leftSize === level) {
+                return node;
+            } else {
+                if (!node)
+                    return getIthNode(node.right, (level - (leftSize + 1)));
+            }
         };
 
     return {
         insertInOrder: insertInOrder,
         find: find,
-        deleteNode: deleteNode
+        deleteNode: deleteNode,
+        getRandomNode: getRandomNode
     };
 }
