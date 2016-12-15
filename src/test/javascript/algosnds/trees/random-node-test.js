@@ -37,6 +37,7 @@ describe('Tree implementation than can retrieve an any random node with equal pr
 
         assertDeletion(tree, 7);
         assertDeletion(tree, 6);
+        assertDeletion(tree, 25);
     });
 
     function assertDeletion(tree, nodeData) {

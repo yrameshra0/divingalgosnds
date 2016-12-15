@@ -52,27 +52,39 @@ export default function newTree() {
                 return findRecur(node.right, data);
             }
         },
-        deleteNode = function deleteNode(data) {
-            let nodeToDelete = find(data);
-            if (nodeToDelete.left === undefined && nodeToDelete.right === undefined) {
-                ( function deleteRootNode(nodeToDelete) {
-                    if (nodeToDelete.parent.left === nodeToDelete) {
-                        nodeToDelete.parent.left = undefined;
-                    } else {
-                        nodeToDelete.parent.right = undefined;
-                    }
-                } )(nodeToDelete);
+        decrementTreeSizes = function decrementTreeSizes(node) {
+            while (node.parent !== undefined) {
+                node.parent.size = node.parent.size - 1;
+                node = node.parent;
             }
+        },
+        makeNodeUndefined = function(nodeToDelete) {
+            if (nodeToDelete.parent.left === nodeToDelete) {
+                nodeToDelete.parent.left = undefined;
+            } else {
+                nodeToDelete.parent.right = undefined;
+            }
+        },
+        deleteNode = function deleteNode(data) {
+            let nodeToDelete = find(data),
+                nodeToReInsert = [],
+                collectNodeData = function collectNodeData(node, array) {
+                    if (node === undefined)
+                        return;
 
-            ( function updateTreeSizes(nodeToDelete) {
-                while (nodeToDelete.parent !== undefined) {
-                    nodeToDelete.parent.size = nodeToDelete.parent.size - 1;
-                    nodeToDelete = nodeToDelete.parent;
+                    array.push(node.data)
+                    decrementTreeSizes(node);
+                    collectNodeData(node.left, array);
+                    collectNodeData(node.right, array);
+                };
 
-                }
-            } )(nodeToDelete);
 
-            console.log(root);
+            collectNodeData(nodeToDelete.left, nodeToReInsert);
+            collectNodeData(nodeToDelete.right, nodeToReInsert);
+            decrementTreeSizes(nodeToDelete);
+            makeNodeUndefined(nodeToDelete);
+
+            nodeToReInsert.forEach((data) => insertInOrder(data));
         };
 
     return {
