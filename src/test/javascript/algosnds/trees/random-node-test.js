@@ -41,10 +41,10 @@ describe('Tree implementation than can retrieve an any random node with equal pr
     });
 
     it('Fetch random node from tree', () => {
-        const rightSubtreeElems = [20, 15, 25, 9, 17, 23, 28, 8, 10, 27, 30, 6, 7, 26];
-        let randomNode = tree.getRandomNode();
-        if (randomNode !== undefined)
-            assert.oneOf(randomNode.data, rightSubtreeElems);
+        const leftSubtreeElems = [20, 15, 9, 8, 10, 6, 7];
+        for (let i = 0; i < 500; i++) {
+            assert.oneOf(tree.getRandomNode().data, leftSubtreeElems);
+        }
     });
 
     it('Delete node from tree', () => {

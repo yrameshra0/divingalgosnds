@@ -18,7 +18,7 @@ export default function newTree() {
                 insertInOrderRecur(root, data);
             }
         },
-        insertInOrderRecur = function insertInOrder(node, data) {
+        insertInOrderRecur = function insertInOrderRecur(node, data) {
             if (data < node.data) {
                 if (node.left === undefined) {
                     node.left = createTreeNode(data);
@@ -86,7 +86,7 @@ export default function newTree() {
             nodeToReInsert.forEach((data) => insertInOrder(data));
         },
         // Returns a random number between min (inclusive) and max (exclusive)
-        getRandomArbitrary = function getRandomArbitrary(max, min = 1) {
+        getRandomArbitrary = function getRandomArbitrary(max, min = 0) {
             return Math.floor(Math.random() * (max - min) + min);
         },
         getRandomNode = function getRandomNode() {
@@ -103,8 +103,7 @@ export default function newTree() {
             } else if (leftSize === level) {
                 return node;
             } else {
-                if (!node)
-                    return getIthNode(node.right, (level - (leftSize + 1)));
+                return getIthNode(!node ? node.right : node, (level - (leftSize + 1)));
             }
         };
 
