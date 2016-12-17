@@ -92,18 +92,18 @@ export default function newTree() {
         getRandomNode = function getRandomNode() {
             if (root === undefined) return;
 
-            const levelsToMove = getRandomArbitrary(root.size);
-            return getIthNode(root, levelsToMove);
+            return getRandomNodeRecur(root);
 
         },
-        getIthNode = function getIthNode(node, level) {
-            const leftSize = node === undefined || node.left === undefined ? 0 : node.left.size;
-            if (level < leftSize) {
-                return getIthNode(node.left, level);
-            } else if (leftSize === level) {
+        getRandomNodeRecur = function getRandomNodeRecur(node) {
+            const leftSize = node.left === undefined ? 0 : node.left.size;
+            const index = getRandomArbitrary(node.size);
+            if (index < leftSize) {
+                return getRandomNodeRecur(node.left);
+            } else if (leftSize === index) {
                 return node;
             } else {
-                return getIthNode(!node ? node.right : node, (level - (leftSize + 1)));
+                return getRandomNodeRecur(node.right);
             }
         };
 

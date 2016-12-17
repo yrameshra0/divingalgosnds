@@ -41,9 +41,9 @@ describe('Tree implementation than can retrieve an any random node with equal pr
     });
 
     it('Fetch random node from tree', () => {
-        const leftSubtreeElems = [20, 15, 9, 8, 10, 6, 7];
+        const treeElems = [20, 15, 25, 9, 17, 23, 28, 8, 10, 27, 30, 6, 7, 26];
         for (let i = 0; i < 500; i++) {
-            assert.oneOf(tree.getRandomNode().data, leftSubtreeElems);
+            assert.oneOf(tree.getRandomNode().data, treeElems);
         }
     });
 
