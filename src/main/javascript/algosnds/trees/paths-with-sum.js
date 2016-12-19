@@ -15,11 +15,11 @@ export default function pathsSum() {
             return totalPaths;
         };
 
-        const rootTotalPaths = totalPathsCount(tree, targetSum, 0);
+        const rootPaths = totalPathsCount(tree, targetSum, 0);
         const leftSubTreePaths = totalPathsCount(tree.left, targetSum, 0);
         const rightSubTreePaths = totalPathsCount(tree.right, targetSum, 0);
 
-        return rootTotalPaths + leftSubTreePaths + rightSubTreePaths;
+        return rootPaths + leftSubTreePaths + rightSubTreePaths;
     }
 
 
