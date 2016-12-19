@@ -20,5 +20,7 @@ describe('Calculate total paths in binary tree leading to given sum', () => {
     it('Total paths doing repeating work', () => {
         assert.equal(calculateSum.countTotalPathsNotOptimized(tree, 8), 3);
     });
-    it('Smart total paths calculator avoiding repeating work');
+    it('Smart total paths calculator avoiding repeating work', () => {
+        assert.equal(calculateSum.countTotalPathsOptimized(tree, 8), 3);
+    });
 });
