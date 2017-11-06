@@ -4,8 +4,9 @@ import algosnds.stacks.Stack;
 
 public class TowerOfHanoi {
 
-    public static void shiftFromSourceToDestination(Stack<Integer> source, Stack<Integer> destination, Stack<Integer> spare) {
-        shifting(source.length(), source, destination, spare);
+    public static void shiftFromSourceToDestination(Stack<Integer> source, Stack<Integer> destination) {
+        Stack<Integer> spareTower = new Stack<>();
+        shifting(source.length(), source, destination, spareTower);
     }
 
     private static void shifting(int n, Stack<Integer> source, Stack<Integer> destination, Stack<Integer> spare) {

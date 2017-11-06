@@ -16,13 +16,11 @@ public class TowerOfHanoiTest {
         sourceTower.push(2);
         sourceTower.push(1);
 
-        Stack<Integer> spareTower = new Stack<>();
         Stack<Integer> destinationTower = new Stack<>();
 
-        TowerOfHanoi.shiftFromSourceToDestination(sourceTower, destinationTower, spareTower);
+        TowerOfHanoi.shiftFromSourceToDestination(sourceTower, destinationTower);
 
         assertThat(sourceTower.isEmpty(), is(true));
-        assertThat(spareTower.isEmpty(), is(true));
 
         assertThat(destinationTower.pop(), is(1));
         assertThat(destinationTower.pop(), is(2));
