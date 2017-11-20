@@ -1,6 +1,7 @@
 package algosnds.general;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -12,82 +13,85 @@ public class MedianOfSmallArray {
         return max(min(a, b), min(c, max(a, b)));
     }
 
-    public static Integer findMedian(Integer[] array) {
+    public static Integer findMedian(List<Integer> elements) {
 
-        if (array.length == 1)
-            return array[0];
+        int size = elements.size();
+        if (size == 1)
+            return elements.get(0);
 
-        if (array.length == 2)
-            return min(array[0], array[1]);
+        if (size == 2)
+            return min(elements.get(0), elements.get(1));
 
-        if (array.length == 3)
-            return median(array[0], array[1], array[2]);
+        if (size == 3)
+            return median(elements.get(0), elements.get(1), elements.get(2));
 
-        return median(redefineArray(array));
+        return median(redefineArray(elements));
     }
 
-    private static Integer[] redefineArray(Integer[] array) {
-        Integer[] redefinedArray = Arrays.copyOf(array, 5);
+    private static List<Integer> redefineArray(List<Integer> elements) {
+        if (elements.size() > 4)
+            return elements;
 
-        if (array.length == 4)
-            redefinedArray[4] = Integer.MAX_VALUE;
+        List<Integer> redefinedArray = new ArrayList<>(5);
+        redefinedArray.addAll(elements);
+        redefinedArray.add(Integer.MAX_VALUE);
 
         return redefinedArray;
     }
 
 
-    private static void swapOnIndex(Integer[] array, int firstIndex, int secondIndex) {
-        Integer temp = array[secondIndex];
-        array[secondIndex] = array[firstIndex];
-        array[firstIndex] = temp;
+    private static void swapOnIndex(List<Integer> elements, int firstIndex, int secondIndex) {
+        Integer temp = elements.get(secondIndex);
+        elements.set(secondIndex, elements.get(firstIndex));
+        elements.set(firstIndex, temp);
     }
 
-    private static void sortOnIndex(Integer[] array, int firstIndex, int secondIndex) {
-        if (array[firstIndex] < array[secondIndex])
+    private static void sortOnIndex(List<Integer> elements, int firstIndex, int secondIndex) {
+        if (elements.get(firstIndex) < elements.get(secondIndex))
             return;
 
-        swapOnIndex(array, firstIndex, secondIndex);
+        swapOnIndex(elements, firstIndex, secondIndex);
     }
 
-    private static Integer median(Integer[] array) {
+    private static Integer median(List<Integer> elements) {
         /**
          * a = A[0], b=A[1], c=A[2], d=A[3], e=A[4]
          */
         // makes a<b
-        sortOnIndex(array, 0, 1);
+        sortOnIndex(elements, 0, 1);
         // makes c<d
-        sortOnIndex(array, 2, 4);
+        sortOnIndex(elements, 2, 4);
 
         // eliminate the lowest -- comparing c<a
-        if (array[2] < array[0]) {
+        if (elements.get(2) < elements.get(0)) {
             // swapping b and d
-            swapOnIndex(array, 1, 4);
+            swapOnIndex(elements, 1, 4);
             // making c = a
-            array[2] = array[0];
+            elements.set(2, elements.get(0));
         }
 
         // getting in e now
-        array[0] = array[4];
+        elements.set(0, elements.get(4));
 
         //making a<b
-        sortOnIndex(array, 0, 1);
+        sortOnIndex(elements, 0, 1);
 
         // eliminate another lowest -- comparing a<c
         // remaining a, b, d
-        if (array[0] < array[2]) {
+        if (elements.get(0) < elements.get(2)) {
             // swapping b and d
-            swapOnIndex(array, 1, 4);
+            swapOnIndex(elements, 1, 4);
             // making a = c
-            array[0] = array[2];
+            elements.set(0, elements.get(2));
         }
 
         // comparing d and a
-        if (array[3] < array[0]) {
+        if (elements.get(3) < elements.get(0)) {
             // returning d
-            return array[3];
+            return elements.get(3);
         }
 
         // returning a
-        return array[0];
+        return elements.get(0);
     }
 }

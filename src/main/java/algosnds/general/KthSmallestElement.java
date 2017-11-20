@@ -1,8 +1,10 @@
 package algosnds.general;
 
-import static algosnds.general.MedianOfSmallArray.findMedian;
-import static java.lang.Math.floorDiv;
-import static java.util.Arrays.copyOf;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.StrictMath.floorDiv;
+import static java.util.stream.Collectors.toList;
 
 public class KthSmallestElement {
 
@@ -12,61 +14,70 @@ public class KthSmallestElement {
      * +------------------------------------------------------------------------------------------------------------------
      * Using an deterministic pivot finding algorithm
      * +------------------------------------------------------------------------------------------------------------------
-     * 1) Divide the input array into pockets of 5 elements
+     * 1) Divide the input elements into pockets of 5 elements
      * 2) Inside each pocket find median in O(1)
      * 3) Medians of all the pockets should be collated and we need to find median from this pocket
-     * 4) Using the final median as a pivot partition the input array
+     * 4) Using the final median as a pivot partition the input elements
      * 5) Compare the k and length of partition
      * a) If l>=k then we know the k-th smallest element if from first partition
      * b) If l<k then the k-th smallest element from the entire list is also (k-l)th element from second list.
      * +------------------------------------------------------------------------------------------------------------------
      */
 
-    public static Integer findKthElement(Integer[] array, Integer k) {
+    public static Integer findKthElement(List<Integer> elements, Integer k) {
         if (k == 1)
-            return array[0]; //base case
+            return elements.get(0); //base case
 
-        Integer pivot = findPivot(array);
-        Integer[] greaterThanPivot = new Integer[array.length];
-        Integer[] lesserThanPivot = new Integer[array.length];
-        int greaterIndex = 0;
-        int lesserIndex = 0;
+        Integer pivot = findPivot(elements);
+        int minimumSize = floorDiv(elements.size(), 2);
+        List<Integer> greaterThanPivot = new ArrayList<>(minimumSize);
+        List<Integer> lesserThanPivot = new ArrayList<>(minimumSize);
 
-        for (int idx = 0; idx < array.length; idx++) {
-            if (array[idx] <= pivot) {
-                lesserThanPivot[lesserIndex] = array[idx];
-                lesserIndex++;
-            } else {
-                greaterThanPivot[greaterIndex] = array[idx];
-                greaterIndex++;
-            }
-        }
+        elements.forEach(element -> {
+            if (element <= pivot)
+                lesserThanPivot.add(element);
+            else
+                greaterThanPivot.add(element);
+        });
 
-        if (lesserIndex < k)
-            return findKthElement(copyOf(greaterThanPivot, greaterIndex), k - lesserIndex);
+        if (lesserThanPivot.size() < k)
+            return findKthElement(greaterThanPivot, k - lesserThanPivot.size());
         else
-            return findKthElement(copyOf(lesserThanPivot, lesserIndex), k);
-
+            return findKthElement(lesserThanPivot, k);
     }
 
-    private static Integer findPivot(Integer[] elementArray) {
-        if (elementArray.length <= 5)
-            return findMedian(elementArray);
+    interface MedianGroupAddition {
+        void apply(List<List<Integer>> median, List<Integer> subgroup);
+    }
 
-        Integer[] medianArray = new Integer[floorDiv(elementArray.length, 5)];
-        Integer[] interimArray = new Integer[5];
-        int medianIncrement = 0;
-        for (int idx = 0; idx < elementArray.length; idx++) {
-            interimArray[idx % 5] = elementArray[idx];
-            if (idx != 0 && (idx + 1) % 5 == 0) {
-                medianArray[medianIncrement] = findMedian(interimArray);
-                medianIncrement++;
+    private static Integer findPivot(List<Integer> elements) {
+        List<List<Integer>> medianGroups = new ArrayList<>(floorDiv(elements.size(), 5));
+        List<Integer> subGroups = new ArrayList<>(5);
+
+        MedianGroupAddition addToMedianGroup = (medianGroup, subGroup) -> {
+            medianGroup.add(new ArrayList<>(subGroup));
+            subGroup.clear();
+        };
+
+        elements.forEach(element -> {
+            subGroups.add(element);
+            if (subGroups.size() == 5) {
+                addToMedianGroup.apply(medianGroups, subGroups);
             }
-        }
+        });
 
-        if (medianIncrement > 1)
-            return findPivot(medianArray);
+        // Additional subgroup elements which have not been added yet
+        if (subGroups.size() != 0)
+            addToMedianGroup.apply(medianGroups, subGroups);
 
-        return medianArray[0];
+
+        List<Integer> medians = medianGroups.stream()
+                .map(MedianOfSmallArray::findMedian)
+                .collect(toList());
+
+        if (medians.size() > 1)
+            return findPivot(medians);
+
+        return medians.get(0);
     }
 }

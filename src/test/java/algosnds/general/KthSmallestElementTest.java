@@ -3,6 +3,8 @@ package algosnds.general;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static algosnds.general.KthSmallestElement.findKthElement;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,7 +25,7 @@ public class KthSmallestElementTest {
 
         Integer expectedValue = 124;
 
-        assertThat(expectedValue, is(findKthElement(elementArray, k)));
+        assertThat(expectedValue, is(findKthElement(Arrays.asList(elementArray), k)));
     }
 
 }
