@@ -2,6 +2,7 @@ package algosnds.general;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.StrictMath.floorDiv;
 import static java.util.stream.Collectors.toList;
@@ -24,7 +25,7 @@ public class KthSmallestElement {
      * +------------------------------------------------------------------------------------------------------------------
      */
 
-    public static Integer findKthElement(List<Integer> elements, Integer k) {
+    public static Integer findKthElementDeterministic(List<Integer> elements, Integer k) {
         if (k == 1)
             return elements.get(0); //base case
 
@@ -41,9 +42,32 @@ public class KthSmallestElement {
         });
 
         if (lesserThanPivot.size() < k)
-            return findKthElement(greaterThanPivot, k - lesserThanPivot.size());
+            return findKthElementDeterministic(greaterThanPivot, k - lesserThanPivot.size());
         else
-            return findKthElement(lesserThanPivot, k);
+            return findKthElementDeterministic(lesserThanPivot, k);
+    }
+
+    public static Integer findKthElementRandom(List<Integer> elements, Integer k) {
+        if (elements.size() == 1)
+            return elements.get(0);
+        
+        Random random = new Random();
+        Integer pivot = elements.get(random.nextInt(elements.size()));
+        int minimumSize = elements.size();
+        List<Integer> greaterThanPivot = new ArrayList<>(minimumSize);
+        List<Integer> lesserThanPivot = new ArrayList<>(minimumSize);
+
+        elements.forEach(element -> {
+            if (element <= pivot)
+                lesserThanPivot.add(element);
+            else
+                greaterThanPivot.add(element);
+        });
+
+        if (lesserThanPivot.size() < k)
+            return findKthElementRandom(greaterThanPivot, k - lesserThanPivot.size());
+        else
+            return findKthElementRandom(lesserThanPivot, k);
     }
 
     interface MedianGroupAddition {
