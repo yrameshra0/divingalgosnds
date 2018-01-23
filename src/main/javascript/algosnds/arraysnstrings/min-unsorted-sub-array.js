@@ -22,56 +22,43 @@ Minimum length sub-array of an unsorted array sorting which results in complete 
 
 ---------------------------------------------------------------------------------------------- **/
 
-export default function FindMinSubArray(array) {
+module.exports = function findMinSubArray(array) {
+  function findStartIndex(array) {
+    for (let i = 1; i < array.length; i++) if (array[i - 1] > array[i]) return i - 1;
+  }
 
-    function findStartIndex(array) {
-        for (let i = 1; i < array.length; i++)
-            if (array[i - 1] > array[i])
-                return i - 1;
-    }
+  function findEndIndex(array) {
+    for (let i = array.length; i >= 0; i--) if (array[i] < array[i - 1]) return i;
+  }
 
-    function findEndIndex(array) {
-        for (let i = array.length; i >= 0; i--)
-            if (array[i] < array[i - 1])
-                return i;
-    }
+  function findMinElemInSubArray(startIndex, endIndex, array) {
+    let minElem = array[startIndex];
+    for (let i = startIndex; i < endIndex; i++) if (array[i] < minElem) minElem = array[i];
 
-    function findMinElemInSubArray(startIndex, endIndex, array) {
-        let minElem = array[startIndex];
-        for (let i = startIndex; i < endIndex; i++)
-            if (array[i] < minElem)
-                minElem = array[i];
+    return minElem;
+  }
 
-        return minElem;
-    }
+  function findMaxElemInSubArray(startIndex, endIndex, array) {
+    let maxElem = array[startIndex];
+    for (let i = startIndex; i < endIndex; i++) if (array[i] > maxElem) maxElem = array[i];
 
-    function findMaxElemInSubArray(startIndex, endIndex, array) {
-        let maxElem = array[startIndex];
-        for (let i = startIndex; i < endIndex; i++)
-            if (array[i] > maxElem)
-                maxElem = array[i];
+    return maxElem;
+  }
 
-        return maxElem;
-    }
+  function searchMinElemLocationInSortedArray(minElem, startIndex, array) {
+    for (let i = 0; i < startIndex; i++) if (minElem > array[i] && minElem < array[i + 1]) return i + 1;
+  }
 
-    function searchMinElemLocationInSortedArray(minElem, startIndex, array) {
-        for (let i = 0; i < startIndex; i++)
-            if (minElem > array[i] && minElem < array[i + 1])
-                return i + 1;
-    }
+  function searchMaxElemLocationInSortedArray(maxElem, endIndex, array) {
+    for (let i = array.length - 1; i > endIndex; i--) if (maxElem < array[i] && maxElem > array[i - 1]) return i;
+  }
 
-    function searchMaxElemLocationInSortedArray(maxElem, endIndex, array) {
-        for (let i = array.length - 1; i > endIndex; i--)
-            if (maxElem < array[i] && maxElem > array[i - 1])
-                return i;
-    }
+  let startIndex = findStartIndex(array);
+  let endIndex = findEndIndex(array);
+  let minElem = findMinElemInSubArray(startIndex, endIndex, array);
+  let maxElem = findMaxElemInSubArray(startIndex, endIndex, array);
+  let minIndex = searchMinElemLocationInSortedArray(minElem, startIndex, array);
+  let maxIndex = searchMaxElemLocationInSortedArray(maxElem, endIndex, array);
 
-    let startIndex = findStartIndex(array),
-        endIndex = findEndIndex(array),
-        minElem = findMinElemInSubArray(startIndex, endIndex, array),
-        maxElem = findMaxElemInSubArray(startIndex, endIndex, array),
-        minIndex = searchMinElemLocationInSortedArray(minElem, startIndex, array),
-        maxIndex = searchMaxElemLocationInSortedArray(maxElem, endIndex, array);
-
-    return array.slice(minIndex, maxIndex);
-}
+  return array.slice(minIndex, maxIndex);
+};
