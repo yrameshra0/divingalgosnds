@@ -1,0 +1,47 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "plugins": [
+    "node",
+    "prettier"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "google",
+    "plugin:node/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 120,
+        "singleQuote": true
+      }
+    ],
+    "require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "FunctionDeclaration": false,
+          "MethodDefinition": false,
+          "ClassDeclaration": false
+        }
+      }
+    ],
+    "node/no-unpublished-require": [
+      "error",
+      {
+        "allowModules": [
+          "mocha",
+          "chai",
+          "sinon",
+          "nock",
+          "proxyquire"
+        ]
+      }
+    ]
+  }
+}
