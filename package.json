@@ -7,7 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha -w ./src/test/javascript/algosnds/arraysnstrings --reporter spec"
+    "test": "mocha -w ./src/test/javascript/**/*.js --reporter spec"
   },
   "repository": {
     "type": "git",
