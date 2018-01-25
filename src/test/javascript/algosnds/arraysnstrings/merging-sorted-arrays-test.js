@@ -4,8 +4,8 @@ const mergeSortedArrays = require('../../../../main/javascript/algosnds/arraysns
 
 describe('Merge sorted arrays', () => {
   it('Folding one array into another with sorted order', () => {
-    let first = [1, 3, 5, 6, 9, 10, undefined, undefined, undefined, undefined];
-    let second = [2, 4, 7, 8];
+    const first = [1, 3, 5, 6, 9, 10, undefined, undefined, undefined, undefined];
+    const second = [2, 4, 7, 8];
 
     mergeSortedArrays(first, second);
 

@@ -53,12 +53,12 @@ module.exports = function findMinSubArray(array) {
     for (let i = array.length - 1; i > endIndex; i--) if (maxElem < array[i] && maxElem > array[i - 1]) return i;
   }
 
-  let startIndex = findStartIndex(array);
-  let endIndex = findEndIndex(array);
-  let minElem = findMinElemInSubArray(startIndex, endIndex, array);
-  let maxElem = findMaxElemInSubArray(startIndex, endIndex, array);
-  let minIndex = searchMinElemLocationInSortedArray(minElem, startIndex, array);
-  let maxIndex = searchMaxElemLocationInSortedArray(maxElem, endIndex, array);
+  const startIndex = findStartIndex(array);
+  const endIndex = findEndIndex(array);
+  const minElem = findMinElemInSubArray(startIndex, endIndex, array);
+  const maxElem = findMaxElemInSubArray(startIndex, endIndex, array);
+  const minIndex = searchMinElemLocationInSortedArray(minElem, startIndex, array);
+  const maxIndex = searchMaxElemLocationInSortedArray(maxElem, endIndex, array);
 
   return array.slice(minIndex, maxIndex);
 };

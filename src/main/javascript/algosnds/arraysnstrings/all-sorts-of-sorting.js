@@ -4,7 +4,7 @@ function bubbleSort(input) {
   for (let i = 0; i < output.length; i++) {
     for (let j = i + 1; j < output.length; j++) {
       if (output[j] < output[i]) {
-        let temp = output[j];
+        const temp = output[j];
         output[j] = output[i];
         output[i] = temp;
       }
@@ -40,7 +40,7 @@ function mergeSort(input) {
 
   (function sort(arr, low, high) {
     if (low < high) {
-      let middle = (low + high) / 2;
+      const middle = (low + high) / 2;
       sort(arr, low, middle);
       sort(arr, middle + 1, high);
       merge(arr, low, middle, high);
@@ -72,7 +72,7 @@ function mergeSort(input) {
       current++;
     }
 
-    let remaining = middle - left;
+    const remaining = middle - left;
     for (let i = 0; i <= remaining; i++) {
       arr[current + i] = temp[left + i];
     }
@@ -82,10 +82,10 @@ function mergeSort(input) {
 }
 
 function quickSort(input) {
-  let output = Object.assign([], input);
+  const output = Object.assign([], input);
 
   (function sort(arr, left, right) {
-    let index = partition(arr, left, right);
+    const index = partition(arr, left, right);
 
     if (left < index - 1) {
       sort(arr, left, index - 1);
@@ -111,7 +111,7 @@ function quickSort(input) {
   }
 
   function swap(arr, left, right) {
-    let temp = arr[left];
+    const temp = arr[left];
     arr[left] = arr[right];
     arr[right] = temp;
   }
