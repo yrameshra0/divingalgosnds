@@ -13,3 +13,4 @@ Repository hosting varied sets of algorithms and data structures intended toward
 | [LRU Cache](./src/main/java/algosnds/leastrecentlyusedcache/LRUCache.java)| Least Recently Used Cache implementation using doubly linked list and hash table combination|
 | [Minimal Tree](./src/main/javascript/algosnds/trees/minimal-tree.js)| Generates binary search tree of minimal height from sorted array in increasing order|
 
+
